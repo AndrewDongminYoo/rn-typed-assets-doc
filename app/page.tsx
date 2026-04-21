@@ -6,6 +6,7 @@ import { InstallationSection } from "@/components/sections/installation-section"
 import { CLIReferenceSection } from "@/components/sections/cli-reference-section"
 import { ConfigurationSection } from "@/components/sections/configuration-section"
 import { CISection } from "@/components/sections/ci-section"
+import { SyntaxDemoSection } from "@/components/sections/syntax-demo-section"
 import { FooterSection } from "@/components/sections/footer-section"
 
 export default function HomePage() {
@@ -20,6 +21,7 @@ export default function HomePage() {
         <CLIReferenceSection />
         <ConfigurationSection />
         <CISection />
+        <SyntaxDemoSection />
       </main>
       <FooterSection />
     </div>

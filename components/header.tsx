@@ -11,6 +11,7 @@ const navLinks = [
   { label: "Installation", href: "#installation" },
   { label: "CLI", href: "#cli" },
   { label: "Config", href: "#configuration" },
+  { label: "Syntax", href: "#syntax-highlighting" },
 ]
 
 export function Header() {
