@@ -7,7 +7,6 @@ import { FooterSection } from "@/components/sections/footer-section";
 import { HeroSection } from "@/components/sections/hero-section";
 import { HowItWorksSection } from "@/components/sections/how-it-works-section";
 import { InstallationSection } from "@/components/sections/installation-section";
-import { SyntaxDemoSection } from "@/components/sections/syntax-demo-section";
 
 export default function HomePage() {
   return (
@@ -21,7 +20,6 @@ export default function HomePage() {
         <CLIReferenceSection />
         <ConfigurationSection />
         <CISection />
-        <SyntaxDemoSection />
       </main>
       <FooterSection />
     </div>
