@@ -77,8 +77,8 @@ export function ConfigurationSection() {
             </div>
             <CodeBlock
               code={configCode}
-              language="javascript"
               filename="rn-typed-assets.config.js"
+              language="javascript"
               showLineNumbers
             />
           </div>

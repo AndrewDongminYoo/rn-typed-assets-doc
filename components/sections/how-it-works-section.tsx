@@ -45,7 +45,7 @@ const normalizationTable = [
 
 export function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="bg-muted/30 py-20 lg:py-28">
+    <section className="bg-muted/30 py-20 lg:py-28" id="how-it-works">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">How It Works</h2>
@@ -116,7 +116,7 @@ export function HowItWorksSection() {
 
           <div>
             <p className="mb-3 text-sm font-medium text-muted-foreground">Example Asset Tree</p>
-            <CodeBlock code={assetTreeCode} language="bash" className="text-sm" />
+            <CodeBlock className="text-sm" code={assetTreeCode} language="bash" />
           </div>
         </div>
 
@@ -137,7 +137,7 @@ export function HowItWorksSection() {
               </thead>
               <tbody>
                 {normalizationTable.map((row, index) => (
-                  <tr key={index} className="border-b border-border/50">
+                  <tr className="border-b border-border/50" key={index}>
                     <td className="px-4 py-3 font-mono text-sm text-muted-foreground">
                       {row.filename}
                     </td>
@@ -154,8 +154,8 @@ export function HowItWorksSection() {
           <h3 className="mb-6 text-xl font-semibold text-foreground">Generated Output</h3>
           <CodeBlock
             code={generatedOutputCode}
-            language="typescript"
             filename="assets.gen.ts"
+            language="typescript"
             showLineNumbers
           />
         </div>
