@@ -1,0 +1,3 @@
+# Custom Dictionary
+codegen
+shiki

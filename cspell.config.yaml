@@ -1,0 +1,21 @@
+version: "0.2"
+ignorePaths:
+  - node_modules/**
+  - dist/**
+  - build/**
+  - .git/**
+  - .vscode/**
+  - coverage/**
+  - "*.min.js"
+  - yarn.lock
+  - package-lock.json
+  - pnpm-lock.yaml
+dictionaryDefinitions:
+  - name: custom-dictionary
+    path: ./.cspell/custom-dictionary.txt
+    addWords: true
+dictionaries:
+  - custom-dictionary
+words: []
+ignoreWords: []
+import: []
