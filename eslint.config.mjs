@@ -23,16 +23,10 @@ const eslintConfig = [
   ...nextTs,
   ...nextVitals,
   js.configs.recommended,
-  ...tseslint.configs.recommended,
+  // ...tseslint.configs.recommended,
   prettier,
   {
     files: ["**/*.{ts,tsx}"],
-    languageOptions: {
-      parser: tseslint.parser,
-    },
-    plugins: {
-      "@typescript-eslint": tseslint.plugin,
-    },
     rules: {
       // Specifiers written only as `type` are now required to include `type` + auto-correction
       "@typescript-eslint/consistent-type-imports": [
