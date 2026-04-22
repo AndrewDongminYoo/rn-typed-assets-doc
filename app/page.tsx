@@ -1,13 +1,13 @@
-import { Header } from "@/components/header"
-import { HeroSection } from "@/components/sections/hero-section"
-import { FeaturesSection } from "@/components/sections/features-section"
-import { HowItWorksSection } from "@/components/sections/how-it-works-section"
-import { InstallationSection } from "@/components/sections/installation-section"
-import { CLIReferenceSection } from "@/components/sections/cli-reference-section"
-import { ConfigurationSection } from "@/components/sections/configuration-section"
-import { CISection } from "@/components/sections/ci-section"
-import { SyntaxDemoSection } from "@/components/sections/syntax-demo-section"
-import { FooterSection } from "@/components/sections/footer-section"
+import { Header } from "@/components/header";
+import { CISection } from "@/components/sections/ci-section";
+import { CLIReferenceSection } from "@/components/sections/cli-reference-section";
+import { ConfigurationSection } from "@/components/sections/configuration-section";
+import { FeaturesSection } from "@/components/sections/features-section";
+import { FooterSection } from "@/components/sections/footer-section";
+import { HeroSection } from "@/components/sections/hero-section";
+import { HowItWorksSection } from "@/components/sections/how-it-works-section";
+import { InstallationSection } from "@/components/sections/installation-section";
+import { SyntaxDemoSection } from "@/components/sections/syntax-demo-section";
 
 export default function HomePage() {
   return (
@@ -25,5 +25,5 @@ export default function HomePage() {
       </main>
       <FooterSection />
     </div>
-  )
+  );
 }
