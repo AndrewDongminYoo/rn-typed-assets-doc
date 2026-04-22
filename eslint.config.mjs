@@ -23,7 +23,7 @@ const eslintConfig = [
   ...nextTs,
   ...nextVitals,
   js.configs.recommended,
-  // ...tseslint.configs.recommended,
+  ...tseslint.configs.recommended,
   prettier,
   {
     files: ["**/*.{ts,tsx}"],
@@ -40,6 +40,8 @@ const eslintConfig = [
       // (Optional) Prevents mistakes from incorrectly using side-effect imports via type imports
       "@typescript-eslint/no-import-type-side-effects": "error",
 
+      // Disable base rule in favour of @typescript-eslint/no-unused-vars below
+      "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
