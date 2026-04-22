@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/components/code-block"
+import { CodeBlock } from "@/components/code-block";
 
 const configCode = `// rn-typed-assets.config.js
 module.exports = {
@@ -37,7 +37,7 @@ module.exports = {
       },
     },
   },
-};`
+};`;
 
 const customTypeCode = `// Adding a custom font asset type
 module.exports = {
@@ -49,69 +49,80 @@ module.exports = {
       inlineType: 'string',  // emits: export type FontsAssetSource = string
     },
   },
-};`
+};`;
 
 export function ConfigurationSection() {
   return (
-    <section id="configuration" className="py-20 lg:py-28">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            Configuration
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
+    <section className="py-20 lg:py-28" id="configuration">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">Configuration</h2>
+          <p className="mx-auto max-w-2xl text-lg text-pretty text-muted-foreground">
             Zero config by default, fully customizable when you need it.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid gap-8 lg:grid-cols-2">
           <div className="space-y-6">
             <div>
-              <h3 className="text-xl font-semibold text-foreground mb-3">Full Configuration</h3>
-              <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
-                Create <code className="font-mono text-primary bg-primary/10 px-1.5 py-0.5 rounded">rn-typed-assets.config.js</code> in 
-                your project root to override defaults. The file is optional — omitting it accepts all defaults.
+              <h3 className="mb-3 text-xl font-semibold text-foreground">Full Configuration</h3>
+              <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                Create{" "}
+                <code className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-primary">
+                  rn-typed-assets.config.js
+                </code>{" "}
+                in your project root to override defaults. The file is optional — omitting it
+                accepts all defaults.
               </p>
             </div>
-            <CodeBlock code={configCode} language="javascript" filename="rn-typed-assets.config.js" showLineNumbers />
+            <CodeBlock
+              code={configCode}
+              language="javascript"
+              filename="rn-typed-assets.config.js"
+              showLineNumbers
+            />
           </div>
 
           <div className="space-y-6">
             <div>
-              <h3 className="text-xl font-semibold text-foreground mb-3">Adding Custom Types</h3>
-              <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
-                Any type not in the defaults can be added under <code className="font-mono text-primary bg-primary/10 px-1.5 py-0.5 rounded">types</code>. 
-                The audit command discovers it automatically via the exportName → type reverse map.
+              <h3 className="mb-3 text-xl font-semibold text-foreground">Adding Custom Types</h3>
+              <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                Any type not in the defaults can be added under{" "}
+                <code className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-primary">
+                  types
+                </code>
+                . The audit command discovers it automatically via the exportName → type reverse
+                map.
               </p>
             </div>
             <CodeBlock code={customTypeCode} language="javascript" />
 
-            <div className="bg-muted/50 border border-border rounded-xl p-6 space-y-4">
+            <div className="space-y-4 rounded-xl border border-border bg-muted/50 p-6">
               <h4 className="font-semibold text-foreground">Configuration Options</h4>
               <div className="space-y-3 text-sm">
                 <div>
                   <code className="font-mono text-primary">outputDir</code>
-                  <p className="text-muted-foreground mt-1">Directory for generated files</p>
+                  <p className="mt-1 text-muted-foreground">Directory for generated files</p>
                 </div>
                 <div>
                   <code className="font-mono text-primary">sourceRoots</code>
-                  <p className="text-muted-foreground mt-1">Files/dirs scanned by audit command</p>
+                  <p className="mt-1 text-muted-foreground">Files/dirs scanned by audit command</p>
                 </div>
                 <div>
                   <code className="font-mono text-primary">rootDir</code>
-                  <p className="text-muted-foreground mt-1">Asset scan root for each type</p>
+                  <p className="mt-1 text-muted-foreground">Asset scan root for each type</p>
                 </div>
                 <div>
                   <code className="font-mono text-primary">extensions</code>
-                  <p className="text-muted-foreground mt-1">File extensions to include</p>
+                  <p className="mt-1 text-muted-foreground">File extensions to include</p>
                 </div>
                 <div>
                   <code className="font-mono text-primary">exportName</code>
-                  <p className="text-muted-foreground mt-1">Name of exported constant</p>
+                  <p className="mt-1 text-muted-foreground">Name of exported constant</p>
                 </div>
                 <div>
                   <code className="font-mono text-primary">typeImport / inlineType</code>
-                  <p className="text-muted-foreground mt-1">TypeScript type configuration</p>
+                  <p className="mt-1 text-muted-foreground">TypeScript type configuration</p>
                 </div>
               </div>
             </div>
@@ -119,5 +130,5 @@ export function ConfigurationSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

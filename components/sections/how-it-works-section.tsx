@@ -1,5 +1,5 @@
-import { WorkflowDiagram } from "@/components/workflow-diagram"
-import { CodeBlock } from "@/components/code-block"
+import { CodeBlock } from "@/components/code-block";
+import { WorkflowDiagram } from "@/components/workflow-diagram";
 
 const generatedOutputCode = `// src/generated/assets.gen.ts
 import type { ImageRequireSource } from 'react-native';
@@ -22,7 +22,7 @@ export const Lotties = {
 
 export const Svgs = {
   logo: require('../assets/svg/logo.svg') as SvgsAssetSource,
-} as const;`
+} as const;`;
 
 const assetTreeCode = `src/assets/
   toast/
@@ -33,7 +33,7 @@ const assetTreeCode = `src/assets/
   lottie/
     loading.json
   svg/
-    logo.svg`
+    logo.svg`;
 
 const normalizationTable = [
   { filename: "harini-cry.png", key: "hariniCry" },
@@ -41,98 +41,107 @@ const normalizationTable = [
   { filename: "Info-Filled.png", key: "infoFilled" },
   { filename: "1.png", key: "n1 (numeric prefix → n)" },
   { filename: "point.png alongside point/ dir", key: "pointAsset (collision)" },
-]
+];
 
 export function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="py-20 lg:py-28 bg-muted/30">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            How It Works
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
+    <section id="how-it-works" className="bg-muted/30 py-20 lg:py-28">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">How It Works</h2>
+          <p className="mx-auto max-w-2xl text-lg text-pretty text-muted-foreground">
             A deterministic pipeline that transforms your asset directory into type-safe TypeScript.
           </p>
         </div>
 
         {/* Workflow Diagram */}
-        <div className="mb-16 bg-card rounded-2xl border border-border p-6 lg:p-8">
-          <h3 className="text-xl font-semibold text-foreground mb-6 text-center">Generation Pipeline</h3>
+        <div className="mb-16 rounded-2xl border border-border bg-card p-6 lg:p-8">
+          <h3 className="mb-6 text-center text-xl font-semibold text-foreground">
+            Generation Pipeline
+          </h3>
           <WorkflowDiagram />
         </div>
 
         {/* Steps explanation */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-16">
+        <div className="mb-16 grid gap-8 lg:grid-cols-2">
           <div className="space-y-6">
             <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0 font-semibold text-sm">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
                 1
               </div>
               <div>
-                <h4 className="font-semibold text-foreground mb-1">Scan</h4>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <h4 className="mb-1 font-semibold text-foreground">Scan</h4>
+                <p className="text-sm leading-relaxed text-muted-foreground">
                   For each enabled asset type, recursively list files under the configured rootDir.
                 </p>
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0 font-semibold text-sm">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
                 2
               </div>
               <div>
-                <h4 className="font-semibold text-foreground mb-1">Normalize</h4>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  Convert each filename to a stable camelCase key. Handle edge cases like numeric prefixes and collisions.
+                <h4 className="mb-1 font-semibold text-foreground">Normalize</h4>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Convert each filename to a stable camelCase key. Handle edge cases like numeric
+                  prefixes and collisions.
                 </p>
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0 font-semibold text-sm">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
                 3
               </div>
               <div>
-                <h4 className="font-semibold text-foreground mb-1">Build Registry Tree</h4>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  Assemble a nested object tree from path segments. Detect and resolve branch/leaf collisions automatically.
+                <h4 className="mb-1 font-semibold text-foreground">Build Registry Tree</h4>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Assemble a nested object tree from path segments. Detect and resolve branch/leaf
+                  collisions automatically.
                 </p>
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0 font-semibold text-sm">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
                 4
               </div>
               <div>
-                <h4 className="font-semibold text-foreground mb-1">Emit</h4>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  Write assets.gen.ts (typed as const object) and assets.manifest.json (stable index of every key ↔ file mapping).
+                <h4 className="mb-1 font-semibold text-foreground">Emit</h4>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Write assets.gen.ts (typed as const object) and assets.manifest.json (stable index
+                  of every key ↔ file mapping).
                 </p>
               </div>
             </div>
           </div>
 
           <div>
-            <p className="text-sm font-medium text-muted-foreground mb-3">Example Asset Tree</p>
+            <p className="mb-3 text-sm font-medium text-muted-foreground">Example Asset Tree</p>
             <CodeBlock code={assetTreeCode} language="bash" className="text-sm" />
           </div>
         </div>
 
         {/* Key normalization rules */}
         <div className="mb-16">
-          <h3 className="text-xl font-semibold text-foreground mb-6">Key Normalization Rules</h3>
+          <h3 className="mb-6 text-xl font-semibold text-foreground">Key Normalization Rules</h3>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-foreground">Filename</th>
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-foreground">Generated Key</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                    Filename
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                    Generated Key
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {normalizationTable.map((row, index) => (
                   <tr key={index} className="border-b border-border/50">
-                    <td className="py-3 px-4 font-mono text-sm text-muted-foreground">{row.filename}</td>
-                    <td className="py-3 px-4 font-mono text-sm text-primary">{row.key}</td>
+                    <td className="px-4 py-3 font-mono text-sm text-muted-foreground">
+                      {row.filename}
+                    </td>
+                    <td className="px-4 py-3 font-mono text-sm text-primary">{row.key}</td>
                   </tr>
                 ))}
               </tbody>
@@ -142,10 +151,15 @@ export function HowItWorksSection() {
 
         {/* Generated output */}
         <div>
-          <h3 className="text-xl font-semibold text-foreground mb-6">Generated Output</h3>
-          <CodeBlock code={generatedOutputCode} language="typescript" filename="assets.gen.ts" showLineNumbers />
+          <h3 className="mb-6 text-xl font-semibold text-foreground">Generated Output</h3>
+          <CodeBlock
+            code={generatedOutputCode}
+            language="typescript"
+            filename="assets.gen.ts"
+            showLineNumbers
+          />
         </div>
       </div>
     </section>
-  )
+  );
 }

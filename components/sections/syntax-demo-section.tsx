@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { CodeBlock } from "@/components/code-block"
-import { cn } from "@/lib/utils"
-import { SUPPORTED_LANGUAGES, TOKEN_COLORS } from "@/lib/syntax-highlighter"
+import { useState } from "react";
+
+import { CodeBlock } from "@/components/code-block";
+import { SUPPORTED_LANGUAGES, TOKEN_COLORS } from "@/lib/syntax-highlighter";
+import { cn } from "@/lib/utils";
 
 // Code examples for different languages
 const CODE_EXAMPLES = {
@@ -360,56 +361,56 @@ ORDER BY month DESC;`,
   }
 }`,
   },
-} as const
+} as const;
 
-type LanguageKey = keyof typeof CODE_EXAMPLES
+type LanguageKey = keyof typeof CODE_EXAMPLES;
 
 export function SyntaxDemoSection() {
-  const [activeLanguage, setActiveLanguage] = useState<LanguageKey>("typescript")
-  const [theme, setTheme] = useState<"dark" | "light">("dark")
+  const [activeLanguage, setActiveLanguage] = useState<LanguageKey>("typescript");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
-  const languageKeys = Object.keys(CODE_EXAMPLES) as LanguageKey[]
-  const currentExample = CODE_EXAMPLES[activeLanguage]
+  const languageKeys = Object.keys(CODE_EXAMPLES) as LanguageKey[];
+  const currentExample = CODE_EXAMPLES[activeLanguage];
 
   return (
-    <section id="syntax-highlighting" className="py-20 bg-background">
+    <section className="bg-background py-20" id="syntax-highlighting">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <span className="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full mb-4">
+        <div className="mb-12 text-center">
+          <span className="mb-4 inline-block rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
             Syntax Highlighting
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
+          <h2 className="mb-4 text-3xl font-bold text-balance text-foreground md:text-4xl">
             Beautiful Code Highlighting for Every Language
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-            Professional syntax highlighting powered by Shiki with support for 25+ programming languages.
-            Optimized for readability and accessibility.
+          <p className="mx-auto max-w-2xl text-lg text-pretty text-muted-foreground">
+            Professional syntax highlighting powered by Shiki with support for 25+ programming
+            languages. Optimized for readability and accessibility.
           </p>
         </div>
 
         {/* Theme Toggle */}
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex items-center gap-2 p-1 rounded-lg bg-muted">
+        <div className="mb-8 flex justify-center">
+          <div className="inline-flex items-center gap-2 rounded-lg bg-muted p-1">
             <button
-              onClick={() => setTheme("dark")}
               className={cn(
-                "px-4 py-2 text-sm font-medium rounded-md transition-colors",
+                "rounded-md px-4 py-2 text-sm font-medium transition-colors",
                 theme === "dark"
                   ? "bg-card text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               )}
+              onClick={() => setTheme("dark")}
             >
               Dark Theme
             </button>
             <button
-              onClick={() => setTheme("light")}
               className={cn(
-                "px-4 py-2 text-sm font-medium rounded-md transition-colors",
+                "rounded-md px-4 py-2 text-sm font-medium transition-colors",
                 theme === "light"
                   ? "bg-card text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               )}
+              onClick={() => setTheme("light")}
             >
               Light Theme
             </button>
@@ -421,14 +422,14 @@ export function SyntaxDemoSection() {
           <div className="flex flex-wrap justify-center gap-2">
             {languageKeys.map((lang) => (
               <button
-                key={lang}
-                onClick={() => setActiveLanguage(lang)}
                 className={cn(
-                  "px-3 py-1.5 text-sm font-medium rounded-md transition-all",
+                  "rounded-md px-3 py-1.5 text-sm font-medium transition-all",
                   activeLanguage === lang
                     ? "bg-primary text-primary-foreground shadow-md"
                     : "bg-muted text-muted-foreground hover:bg-secondary hover:text-foreground"
                 )}
+                key={lang}
+                onClick={() => setActiveLanguage(lang)}
               >
                 {CODE_EXAMPLES[lang].name}
               </button>
@@ -437,36 +438,33 @@ export function SyntaxDemoSection() {
         </div>
 
         {/* Code Example */}
-        <div className="max-w-4xl mx-auto mb-16">
+        <div className="mx-auto mb-16 max-w-4xl">
           <CodeBlock
             code={currentExample.code}
-            language={activeLanguage}
             filename={currentExample.filename}
+            language={activeLanguage}
             showLineNumbers
             theme={theme}
           />
         </div>
 
         {/* Token Colors Reference */}
-        <div className="max-w-4xl mx-auto">
-          <h3 className="text-xl font-semibold text-foreground mb-6 text-center">
+        <div className="mx-auto max-w-4xl">
+          <h3 className="mb-6 text-center text-xl font-semibold text-foreground">
             Token Color Reference
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {Object.entries(TOKEN_COLORS).map(([token, info]) => (
-              <div
-                key={token}
-                className="p-4 rounded-lg border border-border bg-card"
-              >
-                <div className="flex items-center gap-3 mb-2">
+              <div className="rounded-lg border border-border bg-card p-4" key={token}>
+                <div className="mb-2 flex items-center gap-3">
                   <div className="flex gap-1">
                     <div
-                      className="w-5 h-5 rounded-md border border-border"
+                      className="h-5 w-5 rounded-md border border-border"
                       style={{ backgroundColor: info.darkColor }}
                       title="Dark theme"
                     />
                     <div
-                      className="w-5 h-5 rounded-md border border-border"
+                      className="h-5 w-5 rounded-md border border-border"
                       style={{ backgroundColor: info.lightColor }}
                       title="Light theme"
                     />
@@ -475,24 +473,22 @@ export function SyntaxDemoSection() {
                     {token}
                   </span>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  {info.description}
-                </p>
+                <p className="text-sm text-muted-foreground">{info.description}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* Supported Languages */}
-        <div className="mt-16 max-w-4xl mx-auto">
-          <h3 className="text-xl font-semibold text-foreground mb-6 text-center">
+        <div className="mx-auto mt-16 max-w-4xl">
+          <h3 className="mb-6 text-center text-xl font-semibold text-foreground">
             Supported Languages ({Object.keys(SUPPORTED_LANGUAGES).length}+)
           </h3>
           <div className="flex flex-wrap justify-center gap-2">
             {Object.entries(SUPPORTED_LANGUAGES).map(([key, info]) => (
               <span
+                className="rounded-full bg-muted px-3 py-1 text-sm text-muted-foreground"
                 key={key}
-                className="px-3 py-1 text-sm bg-muted text-muted-foreground rounded-full"
               >
                 {info.name}
               </span>
@@ -501,5 +497,5 @@ export function SyntaxDemoSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
