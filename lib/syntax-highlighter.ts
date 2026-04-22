@@ -11,8 +11,11 @@ let highlighterPromise: Promise<Highlighter> | null = null;
 // Supported languages with their display names and file extensions
 export const SUPPORTED_LANGUAGES = {
   // Web Development
-  typescript: { name: "TypeScript", extensions: [".ts", ".tsx"] },
-  javascript: { name: "JavaScript", extensions: [".js", ".jsx"] },
+  typescript: { name: "TypeScript", extensions: [".ts", ".mts", ".cts"] },
+  tsx: { name: "TypeScript JSX", extensions: [".tsx"] },
+  javascript: { name: "JavaScript", extensions: [".js", ".mjs", ".cjs"] },
+  jsx: { name: "JavaScript JSX", extensions: [".jsx"] },
+
   html: { name: "HTML", extensions: [".html", ".htm"] },
   css: { name: "CSS", extensions: [".css"] },
   json: { name: "JSON", extensions: [".json"] },
@@ -54,9 +57,9 @@ export type SupportedLanguage = keyof typeof SUPPORTED_LANGUAGES;
 // Language aliases for common variations
 const LANGUAGE_ALIASES: Record<string, SupportedLanguage> = {
   ts: "typescript",
-  tsx: "typescript",
+  tsx: "tsx",
   js: "javascript",
-  jsx: "javascript",
+  jsx: "jsx",
   py: "python",
   rb: "rust",
   yml: "yaml",
