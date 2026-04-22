@@ -21,7 +21,13 @@ export function Header() {
   const { siteTheme, toggleSiteTheme, codeThemeId, setCodeThemeId } = useSiteTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [themePickerOpen, setThemePickerOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const themePickerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   // Close picker when clicking outside
   useEffect(() => {
@@ -34,7 +40,10 @@ export function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const activeTheme = CODE_THEMES.find((t) => t.id === codeThemeId);
+  // Use stable defaults until mounted to prevent hydration mismatch
+  const resolvedSiteTheme = mounted ? siteTheme : "light";
+  const resolvedCodeThemeId = mounted ? codeThemeId : "github";
+  const activeTheme = CODE_THEMES.find((t) => t.id === resolvedCodeThemeId);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-lg">
@@ -81,7 +90,7 @@ export function Header() {
                     <button
                       className={cn(
                         "w-full px-3 py-2 text-left text-sm transition-colors hover:bg-muted",
-                        theme.id === codeThemeId
+                        theme.id === resolvedCodeThemeId
                           ? "bg-primary/10 font-medium text-primary"
                           : "text-foreground"
                       )}
@@ -100,11 +109,17 @@ export function Header() {
 
             {/* Site dark/light toggle */}
             <button
-              aria-label={siteTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              aria-label={
+                resolvedSiteTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+              }
               className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               onClick={toggleSiteTheme}
             >
-              {siteTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {resolvedSiteTheme === "dark" ? (
+                <Sun className="h-4 w-4" />
+              ) : (
+                <Moon className="h-4 w-4" />
+              )}
             </button>
 
             <Button asChild size="sm" variant="outline">
@@ -166,7 +181,7 @@ export function Header() {
                 <button
                   className={cn(
                     "rounded-md px-3 py-2 text-left text-sm transition-colors",
-                    theme.id === codeThemeId
+                    theme.id === resolvedCodeThemeId
                       ? "bg-primary/10 font-medium text-primary"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   )}
@@ -181,11 +196,13 @@ export function Header() {
 
           <div className="mt-4 flex items-center gap-2 border-t border-border pt-4">
             <button
-              aria-label={siteTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              aria-label={
+                resolvedSiteTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+              }
               className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
               onClick={toggleSiteTheme}
             >
-              {siteTheme === "dark" ? (
+              {resolvedSiteTheme === "dark" ? (
                 <>
                   <Sun className="h-4 w-4" /> Light Mode
                 </>
