@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 
+import { ThemeProvider } from "@/contexts/theme-context";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -42,10 +44,16 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html className={`${inter.variable} ${jetbrainsMono.variable} bg-background`} lang="en">
-      <body className="font-sans antialiased">
-        {children}
-        {process.env.NODE_ENV === "production" && <Analytics />}
+    <html
+      className={`${inter.variable} ${jetbrainsMono.variable} bg-background`}
+      lang="en"
+      suppressHydrationWarning
+    >
+      <body className="font-sans antialiased" suppressHydrationWarning>
+        <ThemeProvider>
+          {children}
+          {process.env.NODE_ENV === "production" && <Analytics />}
+        </ThemeProvider>
       </body>
     </html>
   );

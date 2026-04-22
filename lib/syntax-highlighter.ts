@@ -5,6 +5,8 @@ import {
   type Highlighter,
 } from "shiki";
 
+import { ALL_CURATED_THEMES } from "@/lib/code-themes";
+
 // Singleton pattern for highlighter instance
 let highlighterPromise: Promise<Highlighter> | null = null;
 
@@ -95,7 +97,7 @@ export function getLanguageFromFilename(filename: string): SupportedLanguage {
 async function getHighlighter(): Promise<Highlighter> {
   if (!highlighterPromise) {
     highlighterPromise = createHighlighter({
-      themes: ["github-dark", "github-light"],
+      themes: ALL_CURATED_THEMES,
       langs: Object.keys(SUPPORTED_LANGUAGES) as BundledLanguage[],
     });
   }
