@@ -1,3 +1,17 @@
 # Custom Dictionary
+appendonly
+asyncio
 codegen
+codemod
+coupang
+dataclass
+dataclasses
+harini
+inplace
+kotlinx
+lotties
+pipefail
+regen
 shiki
+Subheadline
+svgs

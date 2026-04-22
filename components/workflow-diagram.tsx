@@ -48,7 +48,7 @@ export function WorkflowDiagram() {
                 <step.icon className="h-7 w-7" />
               </div>
               <span className="text-sm font-semibold text-foreground">{step.label}</span>
-              <span className="mt-1 max-w-[120px] text-xs text-muted-foreground">
+              <span className="mt-1 max-w-30 text-xs text-muted-foreground">
                 {step.description}
               </span>
             </div>
