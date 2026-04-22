@@ -30,8 +30,12 @@ export function CodeBlock({
   theme = "dark",
 }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
-  const [highlightedHtml, setHighlightedHtml] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [highlightedResult, setHighlightedResult] = useState<{
+    code: string;
+    html: string;
+    language: SupportedLanguage;
+    theme: "dark" | "light";
+  } | null>(null);
 
   // Determine language from filename if not specified
   const resolvedLanguage = filename ? getLanguageFromFilename(filename) : resolveLanguage(language);
@@ -39,18 +43,28 @@ export function CodeBlock({
   // Get display name for language badge
   const languageInfo = SUPPORTED_LANGUAGES[resolvedLanguage as SupportedLanguage];
   const languageDisplayName = languageInfo?.name || resolvedLanguage;
+  const highlightedHtml =
+    highlightedResult?.code === code &&
+    highlightedResult.language === resolvedLanguage &&
+    highlightedResult.theme === theme
+      ? highlightedResult.html
+      : null;
+  const isLoading = highlightedHtml === null;
 
   useEffect(() => {
     let cancelled = false;
-    setIsLoading(true);
 
-    highlightCode(code, {
+    void highlightCode(code, {
       language: resolvedLanguage,
       theme: theme === "dark" ? "github-dark" : "github-light",
     }).then((html) => {
       if (!cancelled) {
-        setHighlightedHtml(html);
-        setIsLoading(false);
+        setHighlightedResult({
+          code,
+          html,
+          language: resolvedLanguage,
+          theme,
+        });
       }
     });
 
@@ -179,13 +193,13 @@ export function CodeBlock({
                 </div>
                 {/* Highlighted code */}
                 <div
-                  className="flex-1 overflow-x-auto py-4 pr-4 [&_code]:text-sm [&_code]:leading-relaxed [&_pre]:!m-0 [&_pre]:!bg-transparent [&_pre]:!p-0"
+                  className="flex-1 overflow-x-auto py-4 pr-4 [&_code]:text-sm [&_code]:leading-relaxed [&_pre]:m-0! [&_pre]:bg-transparent! [&_pre]:p-0!"
                   dangerouslySetInnerHTML={{ __html: highlightedHtml || "" }}
                 />
               </div>
             ) : (
               <div
-                className="p-4 [&_code]:text-sm [&_code]:leading-relaxed [&_pre]:!m-0 [&_pre]:!bg-transparent [&_pre]:!p-0"
+                className="p-4 [&_code]:text-sm [&_code]:leading-relaxed [&_pre]:m-0! [&_pre]:bg-transparent! [&_pre]:p-0!"
                 dangerouslySetInnerHTML={{ __html: highlightedHtml || "" }}
               />
             )}
@@ -193,19 +207,5 @@ export function CodeBlock({
         )}
       </div>
     </div>
-  );
-}
-
-// Inline code component for single-line code snippets
-function InlineCode({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <code
-      className={cn(
-        "rounded-md bg-muted px-1.5 py-0.5 font-mono text-sm text-foreground",
-        className
-      )}
-    >
-      {children}
-    </code>
   );
 }
