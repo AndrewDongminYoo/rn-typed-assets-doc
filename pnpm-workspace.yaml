@@ -6,7 +6,7 @@ allowBuilds:
 # breaking major.
 overrides:
   sharp: ^0.35.0 # GHSA-f88m-g3jw-g9cj (libvips CVE-2026-33327/33328/35590/35591)
-  '@babel/core': ^7.29.6
+  "@babel/core": ^7.29.6
   brace-expansion@1: ^1.1.16
   brace-expansion@5: ^5.0.7
   js-yaml@4: ^4.3.0
