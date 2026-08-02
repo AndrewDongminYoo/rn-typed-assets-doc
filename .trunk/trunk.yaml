@@ -20,7 +20,7 @@ lint:
     - grype@0.110.0
     # Pinned to the workspace eslint (package.json ^9.39.4);
     # eslint-plugin-react@7.37.5 breaks on ESLint 10 (context.getFilename removed).
-    - eslint@9.39.4
+    - eslint@10.8.0
     - checkov@3.3.8
     - git-diff-check
     - markdownlint@0.49.1
