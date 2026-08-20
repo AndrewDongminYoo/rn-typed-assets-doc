@@ -42,7 +42,11 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/88 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
         <div className="flex h-17 items-center justify-between gap-5">
-          <Link className="group flex shrink-0 items-center gap-3" href="/">
+          <Link
+            className="group flex shrink-0 items-center gap-3"
+            href="/"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             <span className="flex size-8 items-center justify-center border border-primary bg-primary-solid font-mono text-[0.65rem] font-bold text-primary-foreground transition-transform group-hover:-rotate-3">
               RN
             </span>
