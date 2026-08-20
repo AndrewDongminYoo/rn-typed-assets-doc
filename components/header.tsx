@@ -147,8 +147,10 @@ export function Header() {
         <div
           aria-hidden={!mobileMenuOpen}
           className={cn(
-            "overflow-hidden border-t border-border transition-[max-height,padding] duration-300 lg:hidden",
-            mobileMenuOpen ? "max-h-160 py-5" : "max-h-0 py-0"
+            "border-t border-border transition-[max-height,padding] duration-300 lg:hidden",
+            mobileMenuOpen
+              ? "max-h-[calc(100dvh-4.25rem)] overflow-y-auto py-5"
+              : "max-h-0 overflow-hidden py-0"
           )}
           id="mobile-navigation"
           inert={!mobileMenuOpen}
