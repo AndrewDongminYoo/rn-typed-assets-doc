@@ -66,7 +66,7 @@ export function HowItWorksSection() {
         <div className="mb-16 grid gap-8 lg:grid-cols-2">
           <div className="space-y-6">
             <div className="flex gap-4">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-solid text-sm font-semibold text-primary-foreground">
                 1
               </div>
               <div>
@@ -77,7 +77,7 @@ export function HowItWorksSection() {
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-solid text-sm font-semibold text-primary-foreground">
                 2
               </div>
               <div>
@@ -89,7 +89,7 @@ export function HowItWorksSection() {
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-solid text-sm font-semibold text-primary-foreground">
                 3
               </div>
               <div>
@@ -101,7 +101,7 @@ export function HowItWorksSection() {
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-solid text-sm font-semibold text-primary-foreground">
                 4
               </div>
               <div>
@@ -141,7 +141,7 @@ export function HowItWorksSection() {
                     <td className="px-4 py-3 font-mono text-sm text-muted-foreground">
                       {row.filename}
                     </td>
-                    <td className="px-4 py-3 font-mono text-sm text-primary">{row.key}</td>
+                    <td className="px-4 py-3 font-mono text-sm text-primary-ink">{row.key}</td>
                   </tr>
                 ))}
               </tbody>

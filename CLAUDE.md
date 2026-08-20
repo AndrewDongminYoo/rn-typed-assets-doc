@@ -1,51 +1,63 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides repository guidance for agents working on the React Native Toolkits product website.
 
 ## Commands
 
 ```plaintext
-pnpm dev        # Start dev server at localhost:3000
-pnpm build      # Production build
-pnpm lint       # ESLint check
-pnpm lint:fix   # ESLint auto-fix
-pnpm format     # Prettier auto-write
+pnpm dev        # Start the local Next.js server
+pnpm build      # Create the production build
+pnpm lint       # Run ESLint
+pnpm lint:fix   # Apply ESLint fixes
+pnpm format     # Apply Prettier formatting
 ```
 
-There is no test suite. `eslint-plugin-jest` is installed but only for config completeness.
+Run the dependency-free route test against a running local server.
+
+```bash
+SITE_BASE_URL=http://127.0.0.1:3000 node --test tests/site-routes.test.mjs
+```
 
 ## Architecture
 
-This is a **Next.js 16 App Router** documentation site for the `rn-typed-assets` React Native library. It is a purely static, single-page site with no API routes or database.
+This is a purely static Next.js 16 App Router website with no API routes or database.
+The root route is a product hub, and each public product has a first-class root-level route: `/rn-agents-kit`, `/rn-typed-assets`, `/rn-newarch-ready`, and `/design-to-nativewind`.
 
-### Page composition
+`lib/toolkits.ts` is the shared catalog for product names, internal routes, public destinations, status labels, and visual accents.
+Keep detailed product copy in the individual route file because each tool has a materially different workflow.
 
-`app/page.tsx` is a thin composition layer that assembles section components in order. Each section in `components/sections/` is a self-contained server component responsible for one documentation topic (hero, features, installation, CLI reference, configuration, CI, syntax demo).
+The existing `rn-typed-assets` documentation sections remain isolated under `components/sections/` and are composed by `app/rn-typed-assets/page.tsx`.
+Preserve their public section identifiers when editing them because legacy root fragments redirect to this route.
 
-### Client boundary
+## Client boundary
 
-Only two components use `"use client"`:
+Server components are the default.
+Client rendering is limited to browser-state behavior:
 
-- `components/header.tsx` — mobile menu toggle state
-- `components/code-block.tsx` — copy-to-clipboard and async Shiki highlighting
+- `components/header.tsx` owns the mobile menu and theme controls.
+- `components/code-block.tsx` owns copy-to-clipboard and asynchronous Shiki highlighting.
+- `components/legacy-hash-redirect.tsx` preserves old typed-assets root fragments.
+- `contexts/theme-context.tsx` owns persisted site and code themes.
 
-Everything else is a server component. Do not add `"use client"` unless necessary.
+Do not add `"use client"` to product pages or content components unless browser state is required.
 
-### Syntax highlighting
+## Styling
 
-`lib/syntax-highlighter.ts` holds a singleton Shiki highlighter (lazy-initialized, cached after first call). It resolves language aliases (e.g. `ts` → `typescript`) and falls back to plain HTML escaping on error. `CodeBlock` renders it client-side with a loading state.
+Tailwind CSS 4 uses `@theme` syntax and OKLch tokens in `app/globals.css`.
+Do not use Tailwind v3 `theme()` or `extend` configuration patterns.
+The visual direction is an industrial React Native field lab with blueprint grids, square instrument panels, high-visibility accent colors, and Bricolage Grotesque display typography.
 
-### Styling
+Use the `cn()` helper in `lib/utils.ts` when conditionally composing classes.
+Keep motion CSS-first and preserve the `prefers-reduced-motion` override.
 
-Tailwind CSS v4 using `@theme` syntax and OKLch color tokens defined in `app/globals.css`. Do not use Tailwind v3 `theme()` or `extend` patterns — they are incompatible with v4.
+## Product copy boundary
 
-The `cn()` helper in `lib/utils.ts` (clsx + tailwind-merge) must be used whenever conditionally composing Tailwind classes.
+Use only claims present in the products' public repositories, public package listings, or published release metadata.
+Do not expose private development plans, legal notes, source history, paid-tier ideas, repository identifiers, or unpublished installation paths.
 
 ## Conventions
 
-- **Path alias**: all imports use `@/*` (maps to project root)
-- **Type imports**: always `import type { ... }` for type-only imports (enforced by ESLint)
-- **Import order**: managed by `eslint-plugin-simple-import-sort` — let `pnpm lint:fix` handle it
-- **JSX prop order**: managed by `eslint-plugin-perfectionist` — let `pnpm lint:fix` handle it
-- **Line width**: 100 characters (Prettier)
-- **Markdown lint**: rules MD013, MD033, MD041 are disabled (conflict with Prettier)
+- Use `@/*` path aliases for project imports.
+- Use `import type` for type-only imports.
+- Let the configured import and JSX prop-order rules determine ordering.
+- Keep code blocks and human-facing product documentation in English.

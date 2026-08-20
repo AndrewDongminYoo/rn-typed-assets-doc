@@ -1,5 +1,4 @@
 import js from "@eslint/js";
-import nextPlugin from "@next/eslint-plugin-next";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import prettier from "eslint-config-prettier";
@@ -81,8 +80,6 @@ const eslintConfig = [
       "simple-import-sort": importSort,
     },
     rules: {
-      ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs["core-web-vitals"].rules,
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
       "simple-import-sort/imports": "error",

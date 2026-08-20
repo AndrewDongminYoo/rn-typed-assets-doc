@@ -110,7 +110,7 @@ export function InstallationSection() {
             <div className="grid items-start gap-6 lg:grid-cols-[200px_1fr]" key={step.number}>
               <div className="lg:sticky lg:top-8">
                 <div className="flex items-center gap-4">
-                  <span className="text-4xl font-bold text-primary/20">{step.number}</span>
+                  <span className="text-4xl font-bold text-primary">{step.number}</span>
                   <div>
                     <h3 className="font-semibold text-foreground">{step.title}</h3>
                     <p className="mt-1 text-sm leading-relaxed text-muted-foreground">

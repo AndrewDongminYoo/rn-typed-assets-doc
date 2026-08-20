@@ -63,12 +63,12 @@ export function ConfigurationSection() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          <div className="space-y-6">
+          <div className="min-w-0 space-y-6">
             <div>
               <h3 className="mb-3 text-xl font-semibold text-foreground">Full Configuration</h3>
               <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
                 Create{" "}
-                <code className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-primary">
+                <code className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-primary-ink">
                   rn-typed-assets.config.js
                 </code>{" "}
                 in your project root to override defaults. The file is optional — omitting it
@@ -83,12 +83,12 @@ export function ConfigurationSection() {
             />
           </div>
 
-          <div className="space-y-6">
+          <div className="min-w-0 space-y-6">
             <div>
               <h3 className="mb-3 text-xl font-semibold text-foreground">Adding Custom Types</h3>
               <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
                 Any type not in the defaults can be added under{" "}
-                <code className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-primary">
+                <code className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-primary-ink">
                   types
                 </code>
                 . The audit command discovers it automatically via the exportName → type reverse
@@ -101,27 +101,27 @@ export function ConfigurationSection() {
               <h4 className="font-semibold text-foreground">Configuration Options</h4>
               <div className="space-y-3 text-sm">
                 <div>
-                  <code className="font-mono text-primary">outputDir</code>
+                  <code className="font-mono text-primary-ink">outputDir</code>
                   <p className="mt-1 text-muted-foreground">Directory for generated files</p>
                 </div>
                 <div>
-                  <code className="font-mono text-primary">sourceRoots</code>
+                  <code className="font-mono text-primary-ink">sourceRoots</code>
                   <p className="mt-1 text-muted-foreground">Files/dirs scanned by audit command</p>
                 </div>
                 <div>
-                  <code className="font-mono text-primary">rootDir</code>
+                  <code className="font-mono text-primary-ink">rootDir</code>
                   <p className="mt-1 text-muted-foreground">Asset scan root for each type</p>
                 </div>
                 <div>
-                  <code className="font-mono text-primary">extensions</code>
+                  <code className="font-mono text-primary-ink">extensions</code>
                   <p className="mt-1 text-muted-foreground">File extensions to include</p>
                 </div>
                 <div>
-                  <code className="font-mono text-primary">exportName</code>
+                  <code className="font-mono text-primary-ink">exportName</code>
                   <p className="mt-1 text-muted-foreground">Name of exported constant</p>
                 </div>
                 <div>
-                  <code className="font-mono text-primary">typeImport / inlineType</code>
+                  <code className="font-mono text-primary-ink">typeImport / inlineType</code>
                   <p className="mt-1 text-muted-foreground">TypeScript type configuration</p>
                 </div>
               </div>

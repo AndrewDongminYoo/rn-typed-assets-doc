@@ -2,56 +2,69 @@ import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 
+import { Header } from "@/components/header";
+import { SiteFooter } from "@/components/site-footer";
 import { ThemeProvider } from "@/contexts/theme-context";
 
-const inter = Inter({
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-bricolage",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const sans = Instrument_Sans({
+  subsets: ["latin"],
+  variable: "--font-instrument",
+});
+
+const mono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
 });
 
 export const metadata: Metadata = {
-  title: "rn-typed-assets — Type-Safe Asset Management for React Native",
+  title: {
+    default: "React Native Toolkits — Inspect, Automate, Verify",
+    template: "%s — React Native Toolkits",
+  },
   description:
-    "Eliminate string-based asset references in React Native. Generate typed TypeScript registries for images, SVGs, and Lottie animations with compile-time safety.",
+    "A focused collection of React Native developer tools for agent workflows, typed assets, New Architecture audits, and NativeWind code generation.",
+  icons: {
+    apple: "/apple-icon.png",
+    icon: [{ type: "image/svg+xml", url: "/icon.svg" }],
+  },
   keywords: [
     "react-native",
-    "typescript",
-    "assets",
-    "codegen",
-    "type-safety",
-    "images",
-    "svg",
-    "lottie",
+    "developer-tools",
+    "agent-skills",
+    "typed-assets",
+    "new-architecture",
+    "nativewind",
   ],
   openGraph: {
-    title: "rn-typed-assets",
-    description: "Type-safe asset management for React Native",
+    description: "Agent workflows and deterministic tools for maintaining React Native projects.",
+    title: "React Native Toolkits",
     type: "website",
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html
-      className={`${inter.variable} ${jetbrainsMono.variable} bg-background`}
+      className={`${display.variable} ${sans.variable} ${mono.variable} bg-background`}
+      data-scroll-behavior="smooth"
       lang="en"
       suppressHydrationWarning
     >
-      <body className="font-sans antialiased" suppressHydrationWarning>
+      <body className="min-h-screen font-sans antialiased" suppressHydrationWarning>
         <ThemeProvider>
-          {children}
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <div className="flex-1">{children}</div>
+            <SiteFooter />
+          </div>
           {process.env.NODE_ENV === "production" && <Analytics />}
         </ThemeProvider>
       </body>
