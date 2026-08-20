@@ -98,7 +98,7 @@ export function CLIReferenceSection() {
                   <h3 className="font-mono text-xl font-semibold text-foreground">{cmd.name}</h3>
                 </div>
                 <p className="text-muted-foreground">{cmd.description}</p>
-                {cmd.note && <p className="mt-2 text-sm text-accent">{cmd.note}</p>}
+                {cmd.note && <p className="mt-2 text-sm text-accent-ink">{cmd.note}</p>}
               </div>
 
               <div className="space-y-6 p-6">
@@ -123,11 +123,11 @@ export function CLIReferenceSection() {
                       <tbody>
                         {cmd.flags.map((flag) => (
                           <tr className="border-b border-border/50 last:border-0" key={flag.flag}>
-                            <td className="py-2 pr-4 font-mono whitespace-nowrap text-primary">
+                            <td className="py-2 pr-4 font-mono whitespace-nowrap text-primary-ink">
                               {flag.flag}
                             </td>
                             <td className="py-2 pr-4 text-muted-foreground">{flag.description}</td>
-                            <td className="py-2 font-mono text-xs text-muted-foreground/70">
+                            <td className="py-2 font-mono text-xs text-muted-foreground">
                               {flag.default}
                             </td>
                           </tr>

@@ -1,23 +1,17 @@
 "use client";
 
-import { Github, Menu, Moon, Package, Palette, Sun, X } from "lucide-react";
+import { Github, Menu, Moon, Palette, Sun, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import { Button } from "@/components/ui/button";
 import { useSiteTheme } from "@/contexts/theme-context";
 import { CODE_THEMES } from "@/lib/code-themes";
+import { toolkits } from "@/lib/toolkits";
 import { cn } from "@/lib/utils";
 
-const navLinks = [
-  { label: "Features", href: "#features" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Installation", href: "#installation" },
-  { label: "CLI", href: "#cli" },
-  { label: "Config", href: "#configuration" },
-];
-
 export function Header() {
+  const pathname = usePathname();
   const { siteTheme, toggleSiteTheme, codeThemeId, setCodeThemeId } = useSiteTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [themePickerOpen, setThemePickerOpen] = useState(false);
@@ -29,69 +23,72 @@ export function Header() {
     setMounted(true);
   }, []);
 
-  // Close picker when clicking outside
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (themePickerRef.current && !themePickerRef.current.contains(e.target as Node)) {
+    function handleClickOutside(event: MouseEvent) {
+      if (themePickerRef.current && !themePickerRef.current.contains(event.target as Node)) {
         setThemePickerOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Use stable defaults until mounted to prevent hydration mismatch
   const resolvedSiteTheme = mounted ? siteTheme : "light";
   const resolvedCodeThemeId = mounted ? codeThemeId : "github";
-  const activeTheme = CODE_THEMES.find((t) => t.id === resolvedCodeThemeId);
+  const activeTheme = CODE_THEMES.find((theme) => theme.id === resolvedCodeThemeId);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-lg">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link className="flex items-center gap-2" href="/">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <Package className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="hidden font-semibold text-foreground sm:block">rn-typed-assets</span>
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/88 backdrop-blur-xl">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+        <div className="flex h-17 items-center justify-between gap-5">
+          <Link className="group flex shrink-0 items-center gap-3" href="/">
+            <span className="flex size-8 items-center justify-center border border-primary bg-primary-solid font-mono text-[0.65rem] font-bold text-primary-foreground transition-transform group-hover:-rotate-3">
+              RN
+            </span>
+            <span className="hidden font-display text-base font-semibold tracking-[-0.03em] text-foreground sm:block">
+              React Native Toolkits
+            </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-1 md:flex">
-            {navLinks.map((link) => (
-              <a
-                className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                href={link.href}
-                key={link.label}
+          <nav aria-label="Toolkit navigation" className="hidden items-center gap-1 lg:flex">
+            {toolkits.map((toolkit) => (
+              <Link
+                aria-current={pathname === toolkit.route ? "page" : undefined}
+                className={cn(
+                  "border-b px-3 py-2 font-mono text-[0.68rem] tracking-[0.08em] uppercase transition-colors",
+                  pathname === toolkit.route
+                    ? "border-primary text-foreground"
+                    : "border-transparent text-muted-foreground hover:border-border hover:text-foreground"
+                )}
+                href={toolkit.route}
+                key={toolkit.slug}
               >
-                {link.label}
-              </a>
+                {toolkit.shortName}
+              </Link>
             ))}
           </nav>
 
-          {/* Desktop Actions */}
-          <div className="hidden items-center gap-2 md:flex">
-            {/* Code theme picker */}
+          <div className="hidden items-center gap-1.5 lg:flex">
             <div className="relative" ref={themePickerRef}>
               <button
                 aria-expanded={themePickerOpen}
                 aria-label="Select code theme"
-                className="flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                onClick={() => setThemePickerOpen((v) => !v)}
+                className="flex h-9 items-center gap-2 border border-transparent px-2.5 font-mono text-[0.65rem] tracking-[0.08em] text-muted-foreground uppercase transition-colors hover:border-border hover:text-foreground"
+                onClick={() => setThemePickerOpen((open) => !open)}
               >
-                <Palette className="h-4 w-4" />
-                <span className="hidden lg:inline">{activeTheme?.label ?? "Theme"}</span>
+                <Palette className="size-4" />
+                <span className="hidden xl:inline">{activeTheme?.label ?? "Code theme"}</span>
               </button>
 
               {themePickerOpen && (
-                <div className="absolute top-full right-0 z-50 mt-1 w-44 overflow-hidden rounded-lg border border-border bg-popover shadow-lg">
+                <div className="absolute top-full right-0 z-50 mt-2 w-44 border border-border bg-popover p-1 shadow-2xl">
                   {CODE_THEMES.map((theme) => (
                     <button
                       className={cn(
-                        "w-full px-3 py-2 text-left text-sm transition-colors hover:bg-muted",
+                        "w-full px-3 py-2 text-left font-mono text-xs transition-colors hover:bg-muted",
                         theme.id === resolvedCodeThemeId
-                          ? "bg-primary/10 font-medium text-primary"
+                          ? "bg-primary/10 text-primary-ink"
                           : "text-foreground"
                       )}
                       key={theme.id}
@@ -107,130 +104,92 @@ export function Header() {
               )}
             </div>
 
-            {/* Site dark/light toggle */}
             <button
               aria-label={
                 resolvedSiteTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"
               }
-              className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="flex size-9 items-center justify-center border border-transparent text-muted-foreground transition-colors hover:border-border hover:text-foreground"
               onClick={toggleSiteTheme}
             >
               {resolvedSiteTheme === "dark" ? (
-                <Sun className="h-4 w-4" />
+                <Sun className="size-4" />
               ) : (
-                <Moon className="h-4 w-4" />
+                <Moon className="size-4" />
               )}
             </button>
 
-            <Button asChild size="sm" variant="outline">
-              <a
-                href="https://github.com/AndrewDongminYoo/rn-typed-assets"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <Github className="mr-2 h-4 w-4" />
-                GitHub
-              </a>
-            </Button>
-            <Button asChild size="sm">
-              <a
-                href="https://www.npmjs.com/package/rn-typed-assets"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                npm
-              </a>
-            </Button>
+            <a
+              aria-label="Open AndrewDongminYoo on GitHub"
+              className="flex size-9 items-center justify-center border border-border text-foreground transition-colors hover:border-primary hover:text-primary"
+              href="https://github.com/AndrewDongminYoo"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <Github className="size-4" />
+            </a>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
+            aria-controls="mobile-navigation"
+            aria-expanded={mobileMenuOpen}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            className="-mr-2 p-2 text-muted-foreground hover:text-foreground md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="flex size-10 items-center justify-center border border-border text-foreground lg:hidden"
+            onClick={() => setMobileMenuOpen((open) => !open)}
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         <div
+          aria-hidden={!mobileMenuOpen}
           className={cn(
-            "overflow-hidden border-t border-border transition-all duration-300 md:hidden",
-            mobileMenuOpen ? "max-h-screen py-4" : "max-h-0"
+            "overflow-hidden border-t border-border transition-[max-height,padding] duration-300 lg:hidden",
+            mobileMenuOpen ? "max-h-160 py-5" : "max-h-0 py-0"
           )}
+          id="mobile-navigation"
+          inert={!mobileMenuOpen}
         >
-          <nav className="flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <a
-                className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-                href={link.href}
-                key={link.label}
+          <nav aria-label="Mobile toolkit navigation" className="grid gap-px bg-border">
+            {toolkits.map((toolkit) => (
+              <Link
+                aria-current={pathname === toolkit.route ? "page" : undefined}
+                className="flex items-center justify-between bg-background px-4 py-3.5 text-sm font-semibold text-foreground"
+                href={toolkit.route}
+                key={toolkit.slug}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {link.label}
-              </a>
+                <span>{toolkit.name}</span>
+                <span className="font-mono text-[0.65rem] tracking-[0.12em] text-muted-foreground">
+                  {toolkit.index}
+                </span>
+              </Link>
             ))}
           </nav>
 
-          {/* Mobile theme controls */}
-          <div className="mt-4 border-t border-border pt-4">
-            <p className="mb-2 px-3 text-xs font-medium text-muted-foreground">Code Theme</p>
-            <div className="grid grid-cols-2 gap-1">
-              {CODE_THEMES.map((theme) => (
-                <button
-                  className={cn(
-                    "rounded-md px-3 py-2 text-left text-sm transition-colors",
-                    theme.id === resolvedCodeThemeId
-                      ? "bg-primary/10 font-medium text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  )}
-                  key={theme.id}
-                  onClick={() => setCodeThemeId(theme.id)}
-                >
-                  {theme.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-4 flex items-center gap-2 border-t border-border pt-4">
+          <div className="mt-5 flex items-center justify-between gap-3">
             <button
               aria-label={
                 resolvedSiteTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"
               }
-              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+              className="flex h-10 flex-1 items-center justify-center gap-2 border border-border font-mono text-xs text-muted-foreground"
               onClick={toggleSiteTheme}
             >
               {resolvedSiteTheme === "dark" ? (
-                <>
-                  <Sun className="h-4 w-4" /> Light Mode
-                </>
+                <Sun className="size-4" />
               ) : (
-                <>
-                  <Moon className="h-4 w-4" /> Dark Mode
-                </>
+                <Moon className="size-4" />
               )}
+              {resolvedSiteTheme === "dark" ? "Light mode" : "Dark mode"}
             </button>
-            <Button asChild className="flex-1" size="sm" variant="outline">
-              <a
-                href="https://github.com/AndrewDongminYoo/rn-typed-assets"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <Github className="mr-2 h-4 w-4" />
-                GitHub
-              </a>
-            </Button>
-            <Button asChild className="flex-1" size="sm">
-              <a
-                href="https://www.npmjs.com/package/rn-typed-assets"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                npm
-              </a>
-            </Button>
+            <a
+              className="flex h-10 flex-1 items-center justify-center gap-2 border border-border font-mono text-xs text-muted-foreground"
+              href="https://github.com/AndrewDongminYoo"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <Github className="size-4" />
+              GitHub
+            </a>
           </div>
         </div>
       </div>
