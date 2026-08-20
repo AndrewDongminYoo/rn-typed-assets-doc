@@ -22,23 +22,32 @@ const routes = [
   {
     path: "/rn-typed-assets",
     marker: "rn-typed-assets",
-    destinations: ["https://github.com/AndrewDongminYoo/rn-typed-assets"],
+    destinations: [
+      "https://github.com/AndrewDongminYoo/rn-typed-assets",
+      "https://www.npmjs.com/package/rn-typed-assets",
+    ],
   },
   {
     path: "/rn-newarch-ready",
     marker: "rn-newarch-ready",
-    destinations: ["https://github.com/AndrewDongminYoo/rn-newarch-ready"],
+    destinations: [
+      "https://github.com/AndrewDongminYoo/rn-newarch-ready",
+      "https://www.npmjs.com/package/rn-newarch-ready",
+    ],
   },
   {
     path: "/design-to-nativewind",
     marker: "Design to NativeWind",
-    destinations: ["https://github.com/AndrewDongminYoo/design-to-nativewind"],
+    destinations: [
+      "https://github.com/AndrewDongminYoo/design-to-nativewind",
+      "https://www.figma.com/community/plugin/1653684573206075427/design-to-nativewind",
+    ],
   },
 ];
 
 for (const route of routes) {
   test(`${route.path} renders its public product contract`, async () => {
-    const response = await fetch(new URL(route.path, baseUrl));
+    const response = await fetch(new URL(route.path, baseUrl), { redirect: "manual" });
     const html = await response.text();
 
     assert.equal(response.status, 200, `${route.path} returned HTTP ${response.status}`);
