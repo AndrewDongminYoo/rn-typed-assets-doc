@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 const typedAssetsHashes = new Set([
+  "#start",
   "#ci",
   "#cli",
   "#configuration",
