@@ -166,6 +166,30 @@ export function Header() {
             ))}
           </nav>
 
+          <fieldset className="mt-5 border-t border-border pt-5">
+            <legend className="px-1 font-mono text-[0.65rem] tracking-[0.12em] text-muted-foreground uppercase">
+              Code theme
+            </legend>
+            <div className="mt-3 grid grid-cols-2 gap-px bg-border">
+              {CODE_THEMES.map((theme) => (
+                <button
+                  aria-pressed={theme.id === resolvedCodeThemeId}
+                  className={cn(
+                    "bg-background px-3 py-2.5 text-left font-mono text-xs transition-colors hover:bg-muted hover:text-foreground",
+                    theme.id === resolvedCodeThemeId
+                      ? "bg-primary/10 text-primary-ink"
+                      : "text-muted-foreground"
+                  )}
+                  key={theme.id}
+                  onClick={() => setCodeThemeId(theme.id)}
+                  type="button"
+                >
+                  {theme.label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+
           <div className="mt-5 flex items-center justify-between gap-3">
             <button
               aria-label={
