@@ -18,9 +18,10 @@ import { CodeBlock } from "@/components/code-block";
 import { LegacyHashRedirect } from "@/components/legacy-hash-redirect";
 import { ToolkitCard } from "@/components/toolkit-card";
 import { Button } from "@/components/ui/button";
-import { toolkits } from "@/lib/toolkits";
+import { getToolkit, toolkits } from "@/lib/toolkits";
 
-const [agentLayer, ...deterministicTools] = toolkits;
+const agentLayer = getToolkit("rn-agents-kit");
+const deterministicTools = toolkits.filter((toolkit) => toolkit.slug !== agentLayer.slug);
 
 const operatingContract = [
   { stage: "Audit", value: "06 skills" },
