@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-import { CodeBlock } from "@/components/code-block";
 import { LegacyHashRedirect } from "@/components/legacy-hash-redirect";
 import { ToolkitCard } from "@/components/toolkit-card";
 import { Button } from "@/components/ui/button";
@@ -341,7 +340,11 @@ export default function HomePage() {
             </div>
           </div>
           <div className="lab-panel min-w-0 border border-border bg-card p-5 sm:p-7">
-            <CodeBlock code={auditRun} language="text" />
+            <div className="overflow-x-auto border border-border bg-background/70 p-4 sm:p-5">
+              <pre className="font-mono text-xs leading-6 whitespace-pre text-foreground">
+                {auditRun}
+              </pre>
+            </div>
             <p className="mt-5 border-t border-border pt-5 font-mono text-[0.64rem] leading-5 text-muted-foreground">
               Abridged. The full run also lists the 4 archived dependencies and the 5 app-local
               native modules by path, and exits 1 on a needs-review verdict so the same command

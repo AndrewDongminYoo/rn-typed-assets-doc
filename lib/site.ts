@@ -1,5 +1,10 @@
-/** Canonical origin. Override with NEXT_PUBLIC_SITE_URL when serving the site from somewhere else. */
-export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rn-toolkits.donminzzi.kr";
+const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/+$/, "");
+
+/**
+ * Canonical origin, without a trailing slash. Override with NEXT_PUBLIC_SITE_URL when serving the
+ * site from somewhere else; a blank value falls back rather than reaching `new URL("")`.
+ */
+export const siteUrl = configuredUrl || "https://rn-toolkits.donminzzi.kr";
 
 export const siteName = "React Native Toolkits";
 

@@ -49,7 +49,6 @@ export const metadata: Metadata = {
     siteName,
     title: siteName,
     type: "website",
-    url: siteUrl,
   },
 };
 
