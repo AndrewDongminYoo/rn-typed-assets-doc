@@ -33,96 +33,102 @@ npm run assets:audit -- --fix # delete unused files and regenerate`;
 
 const steps = [
   {
+    code: installCommand,
+    description:
+      "Add rn-typed-assets as a dev dependency. The project needs TypeScript available; most React Native projects already have it.",
+    language: "bash",
     number: "01",
     title: "Install the package",
-    description:
-      "Add rn-typed-assets as a dev dependency. TypeScript must be available in your project (most RN projects already have it).",
-    code: installCommand,
-    language: "bash",
   },
   {
+    code: packageJsonScripts,
+    description: "Declare the generation, organization, and audit commands once as npm scripts.",
+    filename: "package.json",
+    language: "json",
     number: "02",
     title: "Add scripts to package.json",
-    description: "Configure convenient npm scripts for generation, organization, and auditing.",
-    code: packageJsonScripts,
-    language: "json",
-    filename: "package.json",
   },
   {
-    number: "03",
-    title: "Run the generator",
+    code: generateCommand,
     description:
       "Execute the generate command to create assets.gen.ts and assets.manifest.json in src/generated/.",
-    code: generateCommand,
     language: "bash",
+    number: "03",
+    title: "Run the generator",
   },
   {
+    code: usageCode,
+    description: "Import the typed registry and use named constants instead of require() paths.",
+    language: "tsx",
     number: "04",
     title: "Import and use",
-    description: "Import the typed registry and use named constants instead of require() paths.",
-    code: usageCode,
-    language: "tsx",
   },
   {
+    code: auditCommands,
+    description: "Run the audit to list unreferenced assets, then delete them in the same command.",
+    language: "bash",
     number: "05",
     title: "Audit for unused assets",
-    description:
-      "Run the audit command to find and optionally remove unused assets from your codebase.",
-    code: auditCommands,
-    language: "bash",
   },
 ];
 
-const benefits = [
-  "Compile-time safety: Missing assets fail at generation, not runtime",
-  "Autocomplete: IDE support for all your assets",
-  "Refactoring: Rename files and let the tool update references",
-  "Clean codebase: Find and remove unused assets automatically",
+const outcomes = [
+  "Missing assets fail at generation, not at runtime.",
+  "Every asset key is an autocompletable TypeScript constant.",
+  "Renamed files are re-keyed and their references rewritten.",
+  "Unused assets surface in the audit and are removable from it.",
 ];
 
 export function InstallationSection() {
   return (
-    <section className="py-20 lg:py-28" id="installation">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">Quick Start</h2>
-          <p className="mx-auto max-w-2xl text-lg text-pretty text-muted-foreground">
-            Get up and running in minutes. Works with your existing React Native project structure.
+    <section className="border-b border-border" id="installation">
+      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+        <div className="max-w-3xl">
+          <p className="section-kicker">Quick start / 05</p>
+          <h2 className="mt-6 font-display text-4xl leading-[0.96] font-semibold tracking-[-0.05em] text-balance sm:text-6xl">
+            Five steps to a typed registry.
+          </h2>
+          <p className="mt-5 text-base leading-7 text-muted-foreground">
+            Install as a dev dependency, run the generator, then replace require() paths with named
+            constants.
           </p>
         </div>
 
-        {/* Benefits */}
-        <div className="mb-12 rounded-xl border border-accent/20 bg-accent/10 p-6">
-          <h3 className="mb-4 text-lg font-semibold text-foreground">Why use typed assets?</h3>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {benefits.map((benefit) => (
-              <div className="flex items-start gap-3" key={benefit}>
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                <span className="text-sm text-muted-foreground">{benefit}</span>
+        <div className="mt-12 border border-[var(--tool-accent)]/45 bg-[color-mix(in_oklch,var(--tool-accent)_7%,var(--card))] p-6 sm:p-8">
+          <p className="font-mono text-[0.62rem] tracking-[0.14em] text-[var(--tool-accent-ink)] uppercase">
+            What the registry changes
+          </p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {outcomes.map((outcome) => (
+              <div className="flex items-start gap-3" key={outcome}>
+                <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-[var(--tool-accent)]" />
+                <span className="text-sm leading-6 text-muted-foreground">{outcome}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Steps */}
-        <div className="space-y-12">
+        <ol className="mt-14 border-t border-border">
           {steps.map((step) => (
-            <div className="grid items-start gap-6 lg:grid-cols-[200px_1fr]" key={step.number}>
-              <div className="lg:sticky lg:top-8">
-                <div className="flex items-center gap-4">
-                  <span className="text-4xl font-bold text-primary">{step.number}</span>
-                  <div>
-                    <h3 className="font-semibold text-foreground">{step.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                      {step.description}
-                    </p>
-                  </div>
-                </div>
+            <li
+              className="grid items-start gap-6 border-b border-border py-10 lg:grid-cols-[16rem_1fr]"
+              key={step.number}
+            >
+              <div className="lg:sticky lg:top-24">
+                <span className="font-mono text-xs tracking-[0.2em] text-[var(--tool-accent-ink)]">
+                  STEP / {step.number}
+                </span>
+                <h3 className="mt-4 font-display text-2xl font-semibold tracking-[-0.035em]">
+                  {step.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{step.description}</p>
               </div>
-              <CodeBlock code={step.code} filename={step.filename} language={step.language} />
-            </div>
+              <div className="min-w-0">
+                <CodeBlock code={step.code} filename={step.filename} language={step.language} />
+              </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

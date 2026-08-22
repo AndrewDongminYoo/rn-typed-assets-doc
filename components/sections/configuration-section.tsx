@@ -51,30 +51,39 @@ module.exports = {
   },
 };`;
 
+const options = [
+  ["outputDir", "Directory for generated files"],
+  ["sourceRoots", "Files and directories scanned by the audit command"],
+  ["rootDir", "Asset scan root for each type"],
+  ["extensions", "File extensions to include"],
+  ["exportName", "Name of the exported constant"],
+  ["typeImport / inlineType", "TypeScript type configuration"],
+];
+
 export function ConfigurationSection() {
   return (
-    <section className="py-20 lg:py-28" id="configuration">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">Configuration</h2>
-          <p className="mx-auto max-w-2xl text-lg text-pretty text-muted-foreground">
-            Zero config by default, fully customizable when you need it.
+    <section className="border-b border-border" id="configuration">
+      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+        <div className="max-w-3xl">
+          <p className="section-kicker">Configuration / optional</p>
+          <h2 className="mt-6 font-display text-4xl leading-[0.96] font-semibold tracking-[-0.05em] text-balance sm:text-6xl">
+            Zero config by default, explicit when overridden.
+          </h2>
+          <p className="mt-5 text-base leading-7 text-muted-foreground">
+            The defaults cover the standard layout. A config file replaces only the fields it names,
+            so omitting the file accepts every default.
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-2">
-          <div className="min-w-0 space-y-6">
-            <div>
-              <h3 className="mb-3 text-xl font-semibold text-foreground">Full Configuration</h3>
-              <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-                Create{" "}
-                <code className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-primary-ink">
-                  rn-typed-assets.config.js
-                </code>{" "}
-                in your project root to override defaults. The file is optional — omitting it
-                accepts all defaults.
-              </p>
-            </div>
+        <div className="mt-14 grid gap-10 lg:grid-cols-2">
+          <div className="min-w-0">
+            <h3 className="font-display text-2xl font-semibold tracking-[-0.035em]">
+              Full configuration
+            </h3>
+            <p className="mt-3 mb-6 max-w-lg text-sm leading-6 text-muted-foreground">
+              Every field below is an override. The commented value is what the CLI uses when the
+              field is absent.
+            </p>
             <CodeBlock
               code={configCode}
               filename="rn-typed-assets.config.js"
@@ -83,48 +92,28 @@ export function ConfigurationSection() {
             />
           </div>
 
-          <div className="min-w-0 space-y-6">
-            <div>
-              <h3 className="mb-3 text-xl font-semibold text-foreground">Adding Custom Types</h3>
-              <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-                Any type not in the defaults can be added under{" "}
-                <code className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-primary-ink">
-                  types
-                </code>
-                . The audit command discovers it automatically via the exportName → type reverse
-                map.
-              </p>
-            </div>
+          <div className="min-w-0">
+            <h3 className="font-display text-2xl font-semibold tracking-[-0.035em]">
+              Adding custom types
+            </h3>
+            <p className="mt-3 mb-6 max-w-lg text-sm leading-6 text-muted-foreground">
+              Any type outside the three defaults can be declared under types. The audit command
+              discovers it automatically through the exportName to type reverse map.
+            </p>
             <CodeBlock code={customTypeCode} language="javascript" />
 
-            <div className="space-y-4 rounded-xl border border-border bg-muted/50 p-6">
-              <h4 className="font-semibold text-foreground">Configuration Options</h4>
-              <div className="space-y-3 text-sm">
-                <div>
-                  <code className="font-mono text-primary-ink">outputDir</code>
-                  <p className="mt-1 text-muted-foreground">Directory for generated files</p>
-                </div>
-                <div>
-                  <code className="font-mono text-primary-ink">sourceRoots</code>
-                  <p className="mt-1 text-muted-foreground">Files/dirs scanned by audit command</p>
-                </div>
-                <div>
-                  <code className="font-mono text-primary-ink">rootDir</code>
-                  <p className="mt-1 text-muted-foreground">Asset scan root for each type</p>
-                </div>
-                <div>
-                  <code className="font-mono text-primary-ink">extensions</code>
-                  <p className="mt-1 text-muted-foreground">File extensions to include</p>
-                </div>
-                <div>
-                  <code className="font-mono text-primary-ink">exportName</code>
-                  <p className="mt-1 text-muted-foreground">Name of exported constant</p>
-                </div>
-                <div>
-                  <code className="font-mono text-primary-ink">typeImport / inlineType</code>
-                  <p className="mt-1 text-muted-foreground">TypeScript type configuration</p>
-                </div>
-              </div>
+            <div className="mt-8 border border-border bg-card p-6 sm:p-7">
+              <p className="font-mono text-[0.62rem] tracking-[0.14em] text-muted-foreground uppercase">
+                Configuration options
+              </p>
+              <dl className="mt-5 border-t border-border">
+                {options.map(([name, meaning]) => (
+                  <div className="border-b border-border py-3" key={name}>
+                    <dt className="font-mono text-sm text-[var(--tool-accent-ink)]">{name}</dt>
+                    <dd className="mt-1 text-sm leading-6 text-muted-foreground">{meaning}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </div>
         </div>
