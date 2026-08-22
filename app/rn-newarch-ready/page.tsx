@@ -1,11 +1,11 @@
 import { ArrowRight, Box, Braces, Database, Github, ScanSearch, ShieldAlert } from "lucide-react";
-import type { Metadata } from "next";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import { CodeBlock } from "@/components/code-block";
 import { ProductHero } from "@/components/product-hero";
 import { Button } from "@/components/ui/button";
+import { productMetadata } from "@/lib/site";
 import { getToolkit } from "@/lib/toolkits";
 
 const installCode = `npm install --save-dev rn-newarch-ready`;
@@ -50,15 +50,14 @@ const signalRows = [
   ["not-installed", "Declared package is unresolved", "Install before classifying"],
 ];
 
-export const metadata: Metadata = {
-  description:
-    "A read-only, local-first React Native New Architecture readiness audit for dependencies, settings, and app-local native modules.",
-  title: "rn-newarch-ready",
-};
+const toolkit = getToolkit("rn-newarch-ready");
+
+export const metadata = productMetadata(
+  toolkit,
+  "A read-only, local-first React Native New Architecture readiness audit for dependencies, settings, and app-local native modules."
+);
 
 export default function NewArchitectureReadyPage() {
-  const toolkit = getToolkit("rn-newarch-ready");
-
   return (
     <main
       className="tool-accent-scope"
