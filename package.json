@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/site-routes.test.mjs",
+    "format:check": "prettier . --check"
   },
   "dependencies": {
     "@radix-ui/react-slot": "1.2.4",
@@ -47,5 +50,6 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "typescript": "5.7.3",
     "typescript-eslint": "^8.59.0"
-  }
+  },
+  "packageManager": "pnpm@11.20.0"
 }

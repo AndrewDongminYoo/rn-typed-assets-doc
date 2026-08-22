@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Lint, typecheck, build, test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check formatting
+        run: pnpm format:check
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type-check
+        run: pnpm typecheck
+
+      # Next.js shares .next/cache between builds:
+      # https://nextjs.org/docs/app/guides/ci-build-caching
+      # The documented example hashes '**/*.ts' and friends, which also walks
+      # node_modules after install; the source directories are the same signal
+      # and cost a fraction of the time.
+      - name: Restore the Next.js build cache
+        uses: actions/cache@v6
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: >-
+            ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}-${{
+            hashFiles('app/**', 'components/**', 'contexts/**', 'lib/**') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}-
+
+      - name: Build
+        run: pnpm build
+
+      - name: Run the route tests against the production build
+        run: |
+          pnpm start > /tmp/next-server.log 2>&1 &
+
+          for _ in $(seq 1 60); do
+            curl -sf -o /dev/null http://127.0.0.1:3000/ && break
+            sleep 1
+          done
+
+          if ! curl -sf -o /dev/null http://127.0.0.1:3000/; then
+            echo "::error::next start never became reachable on port 3000"
+            cat /tmp/next-server.log
+            exit 1
+          fi
+
+          SITE_BASE_URL=http://127.0.0.1:3000 pnpm test
