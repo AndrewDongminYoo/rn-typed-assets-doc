@@ -1,9 +1,5 @@
-const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-
-/** Canonical origin. Vercel supplies the production host automatically; override with NEXT_PUBLIC_SITE_URL for a custom domain. */
-export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (vercelUrl ? `https://${vercelUrl}` : "http://localhost:3000");
+/** Canonical origin. Override with NEXT_PUBLIC_SITE_URL when serving the site from somewhere else. */
+export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rn-toolkits.donminzzi.kr";
 
 export const siteName = "React Native Toolkits";
 
