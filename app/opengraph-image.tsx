@@ -15,8 +15,8 @@ export default function Image() {
     description:
       "A focused collection of developer tools for the React Native work that gets brittle: assets, architecture audits, design handoff, and agent-led maintenance.",
     eyebrow: "Field index",
-    // Static hub copy rather than the catalog's short names: that list grows, and the footer
-    // row has no wrap fallback, so a fifth entry silently overlaps the site name beside it.
+    // The footer row has no wrap fallback, so a longer string overlaps the site name beside
+    // it instead of wrapping. Keep this static rather than deriving it from a list.
     footnote: "Inspect · Automate · Verify",
     index: String(toolkits.length).padStart(2, "0"),
     title: "Build less blind. Ship more certain.",
