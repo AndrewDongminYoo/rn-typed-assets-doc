@@ -4,6 +4,12 @@ export type ToolkitSlug =
 
 export interface Toolkit {
   accent: string;
+  /**
+   * sRGB twin of `accent`, for Open Graph cards. Satori has no `oklch()` parser and does not
+   * throw on one, so a card fed `accent` renders in a fallback colour that only fails by eye.
+   * Rasterised from `accent` by the browser, so it matches what the site actually paints.
+   */
+  accentHex: `#${string}`;
   description: string;
   eyebrow: string;
   githubUrl: string;
@@ -20,6 +26,7 @@ export interface Toolkit {
 export const toolkits = [
   {
     accent: "oklch(0.83 0.2 130)",
+    accentHex: "#9be03c",
     description:
       "Six audit-first agent skills for inspecting, maintaining, and verifying React Native projects.",
     eyebrow: "Agent workflow",
@@ -33,6 +40,7 @@ export const toolkits = [
   },
   {
     accent: "oklch(0.78 0.15 210)",
+    accentHex: "#00d0ec",
     description:
       "Generate typed registries for images, SVGs, and Lottie files, then audit and reorganize assets safely.",
     eyebrow: "Asset pipeline",
@@ -48,6 +56,7 @@ export const toolkits = [
   },
   {
     accent: "oklch(0.8 0.17 80)",
+    accentHex: "#f6af00",
     description:
       "Read a project's local native signals and report what still needs review before a New Architecture migration.",
     eyebrow: "Migration audit",
@@ -63,6 +72,7 @@ export const toolkits = [
   },
   {
     accent: "oklch(0.73 0.2 25)",
+    accentHex: "#ff6964",
     description:
       "Convert a Figma selection into React Native and NativeWind component code through a deterministic pipeline.",
     eyebrow: "Design codegen",

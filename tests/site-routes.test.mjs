@@ -115,3 +115,26 @@ test("product routes advertise themselves in og:url", async () => {
     );
   }
 });
+
+// A segment without its own opengraph-image file inherits the root card, so every product link
+// previews as the hub. The origin is build-time, so the assertion is on the resolved path.
+test("every route advertises its own og:image", async () => {
+  for (const route of routes) {
+    const response = await fetch(new URL(route.path, baseUrl), { redirect: "manual" });
+    const html = await response.text();
+    const match = html.match(/property="og:image" content="([^"]*)"/);
+
+    assert.ok(match, `${route.path} emits no og:image`);
+
+    // Crawlers do not resolve a relative og:image, so this must parse without a base.
+    const image = new URL(match[1]);
+    const expected = route.path === "/" ? "/opengraph-image" : `${route.path}/opengraph-image`;
+
+    assert.equal(image.pathname, expected, `${route.path} advertises ${image.pathname}`);
+
+    const card = await fetch(new URL(image.pathname + image.search, baseUrl));
+
+    assert.equal(card.status, 200, `${expected} returned HTTP ${card.status}`);
+    assert.equal(card.headers.get("content-type"), "image/png", `${expected} is not a PNG`);
+  }
+});
