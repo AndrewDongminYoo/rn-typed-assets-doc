@@ -8,6 +8,7 @@ import type { ReactNode } from "react";
 import { Header } from "@/components/header";
 import { SiteFooter } from "@/components/site-footer";
 import { ThemeProvider } from "@/contexts/theme-context";
+import { siteDescription, siteName, siteUrl } from "@/lib/site";
 
 const display = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -25,12 +26,12 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "React Native Toolkits — Inspect, Automate, Verify",
     template: "%s — React Native Toolkits",
   },
-  description:
-    "A focused collection of React Native developer tools for agent workflows, typed assets, New Architecture audits, and NativeWind code generation.",
+  description: siteDescription,
   icons: {
     apple: "/apple-icon.png",
     icon: [{ type: "image/svg+xml", url: "/icon.svg" }],
@@ -45,8 +46,10 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     description: "Agent workflows and deterministic tools for maintaining React Native projects.",
-    title: "React Native Toolkits",
+    siteName,
+    title: siteName,
     type: "website",
+    url: siteUrl,
   },
 };
 

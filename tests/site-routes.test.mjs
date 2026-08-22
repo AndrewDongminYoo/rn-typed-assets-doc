@@ -61,3 +61,19 @@ for (const route of routes) {
     }
   });
 }
+
+const assets = [
+  { path: "/sitemap.xml", marker: "/rn-agents-kit</loc>" },
+  { path: "/robots.txt", marker: "Sitemap:" },
+  { path: "/llms.txt", marker: "# React Native Toolkits" },
+];
+
+for (const asset of assets) {
+  test(`${asset.path} is served`, async () => {
+    const response = await fetch(new URL(asset.path, baseUrl), { redirect: "manual" });
+    const body = await response.text();
+
+    assert.equal(response.status, 200, `${asset.path} returned HTTP ${response.status}`);
+    assert.ok(body.includes(asset.marker), `${asset.path} is missing ${asset.marker}`);
+  });
+}
