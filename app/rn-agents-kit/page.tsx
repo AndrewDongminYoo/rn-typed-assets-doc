@@ -9,12 +9,12 @@ import {
   ScanSearch,
   ShieldCheck,
 } from "lucide-react";
-import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 
 import { CodeBlock } from "@/components/code-block";
 import { ProductHero } from "@/components/product-hero";
 import { Button } from "@/components/ui/button";
+import { productMetadata } from "@/lib/site";
 import { getToolkit } from "@/lib/toolkits";
 
 const installCode = `/plugin marketplace add AndrewDongminYoo/rn-agents-kit
@@ -72,15 +72,14 @@ const contract = [
   ["04", "Review", "The resulting git diff stays visible so the operator owns the final decision."],
 ];
 
-export const metadata: Metadata = {
-  description:
-    "Six audit-first agent skills for React Native project snapshots, asset hygiene, New Architecture readiness, code review, device capture, and Metro console output.",
-  title: "RN Agents Kit",
-};
+const toolkit = getToolkit("rn-agents-kit");
+
+export const metadata = productMetadata(
+  toolkit,
+  "Six audit-first agent skills for React Native project snapshots, asset hygiene, New Architecture readiness, code review, device capture, and Metro console output."
+);
 
 export default function AgentsKitPage() {
-  const toolkit = getToolkit("rn-agents-kit");
-
   return (
     <main
       className="tool-accent-scope"

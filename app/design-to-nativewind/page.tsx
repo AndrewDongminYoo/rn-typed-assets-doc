@@ -8,11 +8,11 @@ import {
   Palette,
   Sparkles,
 } from "lucide-react";
-import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 
 import { ProductHero } from "@/components/product-hero";
 import { Button } from "@/components/ui/button";
+import { productMetadata } from "@/lib/site";
 import { getToolkit } from "@/lib/toolkits";
 
 const pipeline = [
@@ -78,15 +78,14 @@ const capabilities = [
   },
 ];
 
-export const metadata: Metadata = {
-  description:
-    "A Figma plugin that deterministically converts selected designs into React Native and NativeWind component code.",
-  title: "Design to NativeWind",
-};
+const toolkit = getToolkit("design-to-nativewind");
+
+export const metadata = productMetadata(
+  toolkit,
+  "A Figma plugin that deterministically converts selected designs into React Native and NativeWind component code."
+);
 
 export default function DesignToNativeWindPage() {
-  const toolkit = getToolkit("design-to-nativewind");
-
   return (
     <main
       className="tool-accent-scope"

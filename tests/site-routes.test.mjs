@@ -99,3 +99,19 @@ test("/rn-typed-assets keeps its legacy section anchors", async () => {
     assert.ok(html.includes(`id="${anchor}"`), `/rn-typed-assets lost the #${anchor} anchor`);
   }
 });
+
+// A product page without its own openGraph block inherits the root one, which once made every
+// product link preview as the site root. The origin is build-time, so only the path is asserted.
+test("product routes advertise themselves in og:url", async () => {
+  for (const route of routes.filter((candidate) => candidate.path !== "/")) {
+    const response = await fetch(new URL(route.path, baseUrl), { redirect: "manual" });
+    const html = await response.text();
+    const match = html.match(/property="og:url" content="([^"]*)"/);
+
+    assert.ok(match, `${route.path} emits no og:url`);
+    assert.ok(
+      match[1].endsWith(route.path),
+      `${route.path} advertises ${match[1]} instead of itself`
+    );
+  }
+});

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 
 import { CISection } from "@/components/sections/ci-section";
@@ -9,17 +8,17 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { HowItWorksSection } from "@/components/sections/how-it-works-section";
 import { InstallationSection } from "@/components/sections/installation-section";
 import { TypedAssetsCtaSection } from "@/components/sections/typed-assets-cta-section";
+import { productMetadata } from "@/lib/site";
 import { getToolkit } from "@/lib/toolkits";
 
-export const metadata: Metadata = {
-  description:
-    "Generate typed TypeScript registries for React Native images, SVGs, and Lottie animations, then audit unused assets and rewrite stale references.",
-  title: "rn-typed-assets",
-};
+const toolkit = getToolkit("rn-typed-assets");
+
+export const metadata = productMetadata(
+  toolkit,
+  "Generate typed TypeScript registries for React Native images, SVGs, and Lottie animations, then audit unused assets and rewrite stale references."
+);
 
 export default function TypedAssetsPage() {
-  const toolkit = getToolkit("rn-typed-assets");
-
   return (
     <main
       className="tool-accent-scope"
