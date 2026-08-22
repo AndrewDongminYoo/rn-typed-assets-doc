@@ -17,7 +17,7 @@ export function HeroSection() {
 
   return (
     <ProductHero
-      description="Scan the asset tree, emit stable TypeScript constants and a manifest, then find unused files or rewrite stale references through explicit commands."
+      description="Scan the asset tree, emit stable TypeScript constants and a manifest, then find unused files or rewrite stale references through explicit commands. The package ships no runtime dependencies and takes TypeScript as its only peer."
       intro="Stop shipping string-based asset paths. Generate the registry your React Native project can actually type-check."
       toolkit={toolkit}
     >

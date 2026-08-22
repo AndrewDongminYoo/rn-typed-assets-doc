@@ -1,5 +1,4 @@
 import { CodeBlock } from "@/components/code-block";
-import { WorkflowDiagram } from "@/components/workflow-diagram";
 
 const generatedOutputCode = `// src/generated/assets.gen.ts
 import type { ImageRequireSource } from 'react-native';
@@ -35,129 +34,136 @@ const assetTreeCode = `src/assets/
   svg/
     logo.svg`;
 
+const stages = [
+  {
+    description:
+      "For each enabled asset type, recursively list files under the configured rootDir.",
+    number: "01",
+    title: "Scan",
+  },
+  {
+    description:
+      "Convert each filename to a stable camelCase key, resolving numeric prefixes and collisions.",
+    number: "02",
+    title: "Normalize",
+  },
+  {
+    description:
+      "Assemble a nested object tree from path segments, detecting and resolving branch and leaf collisions.",
+    number: "03",
+    title: "Build the registry tree",
+  },
+  {
+    description:
+      "Write assets.gen.ts as a typed const object and assets.manifest.json as a stable index of every key to file mapping.",
+    number: "04",
+    title: "Emit",
+  },
+];
+
 const normalizationTable = [
-  { filename: "harini-cry.png", key: "hariniCry" },
-  { filename: "camera_guide.png", key: "cameraGuide" },
-  { filename: "Info-Filled.png", key: "infoFilled" },
-  { filename: "1.png", key: "n1 (numeric prefix → n)" },
-  { filename: "point.png alongside point/ dir", key: "pointAsset (collision)" },
+  ["harini-cry.png", "hariniCry"],
+  ["camera_guide.png", "cameraGuide"],
+  ["Info-Filled.png", "infoFilled"],
+  ["1.png", "n1 (numeric prefix → n)"],
+  ["point.png alongside point/ dir", "pointAsset (collision)"],
 ];
 
 export function HowItWorksSection() {
   return (
-    <section className="bg-muted/30 py-20 lg:py-28" id="how-it-works">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">How It Works</h2>
-          <p className="mx-auto max-w-2xl text-lg text-pretty text-muted-foreground">
-            A deterministic pipeline that transforms your asset directory into type-safe TypeScript.
+    <section className="field-grid border-b border-border bg-card/35" id="how-it-works">
+      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+        <div className="max-w-3xl">
+          <p className="section-kicker">Generation pipeline / 04</p>
+          <h2 className="mt-6 font-display text-4xl leading-[0.96] font-semibold tracking-[-0.05em] text-balance sm:text-6xl">
+            Scan, normalize, build, emit.
+          </h2>
+          <p className="mt-5 text-base leading-7 text-muted-foreground">
+            The same asset directory produces the same registry on every run, which is what makes
+            the output reviewable in a diff.
           </p>
         </div>
 
-        {/* Workflow Diagram */}
-        <div className="mb-16 rounded-2xl border border-border bg-card p-6 lg:p-8">
-          <h3 className="mb-6 text-center text-xl font-semibold text-foreground">
-            Generation Pipeline
-          </h3>
-          <WorkflowDiagram />
+        <div className="mt-14 grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+          <ol className="border-t border-border">
+            {stages.map((stage) => (
+              <li
+                className="grid gap-3 border-b border-border py-6 sm:grid-cols-[3.5rem_1fr]"
+                key={stage.number}
+              >
+                <span className="font-mono text-xs text-[var(--tool-accent-ink)]">
+                  {stage.number}
+                </span>
+                <div>
+                  <h3 className="font-display text-2xl font-semibold tracking-[-0.035em]">
+                    {stage.title}
+                  </h3>
+                  <p className="mt-2 max-w-lg text-sm leading-6 text-muted-foreground">
+                    {stage.description}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="min-w-0">
+            <p className="mb-3 font-mono text-[0.62rem] tracking-[0.14em] text-muted-foreground uppercase">
+              Example asset tree
+            </p>
+            <CodeBlock code={assetTreeCode} language="bash" />
+          </div>
         </div>
 
-        {/* Steps explanation */}
-        <div className="mb-16 grid gap-8 lg:grid-cols-2">
-          <div className="space-y-6">
-            <div className="flex gap-4">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-solid text-sm font-semibold text-primary-foreground">
-                1
-              </div>
-              <div>
-                <h4 className="mb-1 font-semibold text-foreground">Scan</h4>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  For each enabled asset type, recursively list files under the configured rootDir.
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-solid text-sm font-semibold text-primary-foreground">
-                2
-              </div>
-              <div>
-                <h4 className="mb-1 font-semibold text-foreground">Normalize</h4>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  Convert each filename to a stable camelCase key. Handle edge cases like numeric
-                  prefixes and collisions.
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-solid text-sm font-semibold text-primary-foreground">
-                3
-              </div>
-              <div>
-                <h4 className="mb-1 font-semibold text-foreground">Build Registry Tree</h4>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  Assemble a nested object tree from path segments. Detect and resolve branch/leaf
-                  collisions automatically.
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-solid text-sm font-semibold text-primary-foreground">
-                4
-              </div>
-              <div>
-                <h4 className="mb-1 font-semibold text-foreground">Emit</h4>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  Write assets.gen.ts (typed as const object) and assets.manifest.json (stable index
-                  of every key ↔ file mapping).
-                </p>
-              </div>
-            </div>
-          </div>
-
+        <div className="mt-16 grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
-            <p className="mb-3 text-sm font-medium text-muted-foreground">Example Asset Tree</p>
-            <CodeBlock className="text-sm" code={assetTreeCode} language="bash" />
-          </div>
-        </div>
-
-        {/* Key normalization rules */}
-        <div className="mb-16">
-          <h3 className="mb-6 text-xl font-semibold text-foreground">Key Normalization Rules</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="border-b border-border">
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
-                    Filename
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
-                    Generated Key
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {normalizationTable.map((row, index) => (
-                  <tr className="border-b border-border/50" key={index}>
-                    <td className="px-4 py-3 font-mono text-sm text-muted-foreground">
-                      {row.filename}
-                    </td>
-                    <td className="px-4 py-3 font-mono text-sm text-primary-ink">{row.key}</td>
+            <h3 className="font-display text-3xl font-semibold tracking-[-0.04em]">
+              Key normalization rules
+            </h3>
+            <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">
+              Filenames become identifiers through fixed rules rather than per-project conventions,
+              so two developers regenerating the same tree get the same keys.
+            </p>
+            <div className="mt-8 overflow-x-auto border-t border-border">
+              <table className="w-full min-w-100 border-collapse text-left">
+                <thead>
+                  <tr className="font-mono text-[0.62rem] tracking-[0.13em] text-muted-foreground uppercase">
+                    <th className="border-b border-border py-3 pr-5 font-normal">Filename</th>
+                    <th className="border-b border-border py-3 font-normal">Generated key</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {normalizationTable.map(([filename, key]) => (
+                    <tr className="text-sm" key={filename}>
+                      <td className="border-b border-border py-3 pr-5 font-mono text-muted-foreground">
+                        {filename}
+                      </td>
+                      <td className="border-b border-border py-3 font-mono text-[var(--tool-accent-ink)]">
+                        {key}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
 
-        {/* Generated output */}
-        <div>
-          <h3 className="mb-6 text-xl font-semibold text-foreground">Generated Output</h3>
-          <CodeBlock
-            code={generatedOutputCode}
-            filename="assets.gen.ts"
-            language="typescript"
-            showLineNumbers
-          />
+          <div className="min-w-0">
+            <h3 className="font-display text-3xl font-semibold tracking-[-0.04em]">
+              Generated output
+            </h3>
+            <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">
+              Keys are sorted, types are imported per asset type, and the whole object is const so
+              TypeScript narrows every reference.
+            </p>
+            <div className="mt-8">
+              <CodeBlock
+                code={generatedOutputCode}
+                filename="assets.gen.ts"
+                language="typescript"
+                showLineNumbers
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>

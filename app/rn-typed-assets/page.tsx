@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 
 import { CISection } from "@/components/sections/ci-section";
 import { CLIReferenceSection } from "@/components/sections/cli-reference-section";
@@ -8,6 +9,7 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { HowItWorksSection } from "@/components/sections/how-it-works-section";
 import { InstallationSection } from "@/components/sections/installation-section";
 import { TypedAssetsCtaSection } from "@/components/sections/typed-assets-cta-section";
+import { getToolkit } from "@/lib/toolkits";
 
 export const metadata: Metadata = {
   description:
@@ -16,8 +18,13 @@ export const metadata: Metadata = {
 };
 
 export default function TypedAssetsPage() {
+  const toolkit = getToolkit("rn-typed-assets");
+
   return (
-    <main>
+    <main
+      className="tool-accent-scope"
+      style={{ "--tool-accent": toolkit.accent } as CSSProperties}
+    >
       <HeroSection />
       <div className="scroll-mt-20" id="start">
         <FeaturesSection />

@@ -1,133 +1,134 @@
-import { Terminal } from "lucide-react";
-
 import { CodeBlock } from "@/components/code-block";
 
 const commands = [
   {
-    name: "generate",
     description: "Scan asset directories and emit assets.gen.ts + assets.manifest.json.",
-    flags: [
-      {
-        flag: "--types <types>",
-        description: "Comma-separated asset types",
-        default: "image,svg,lottie",
-      },
-      {
-        flag: "--inplace",
-        description: "Rewrite source files after regen",
-        default: "false",
-      },
-      {
-        flag: "--root <path>",
-        description: "Project root directory",
-        default: "cwd",
-      },
-      {
-        flag: "--config <path>",
-        description: "Path to config file",
-        default: "./rn-typed-assets.config.js",
-      },
-    ],
     examples: [
       "rn-typed-assets generate",
       "rn-typed-assets generate --inplace",
       "rn-typed-assets generate --types=image,lottie",
     ],
-  },
-  {
-    name: "organize",
-    description:
-      "Move asset files into canonical subdirectories, then regenerate and rewrite sources.",
     flags: [
       {
-        flag: "<assetsDir>",
-        description: "Path to the asset root to organize",
-        default: "(required)",
+        default: "image,svg,lottie",
+        description: "Comma-separated asset types",
+        flag: "--types <types>",
       },
       {
-        flag: "--types <types>",
-        description: "Asset types to move",
-        default: "image,svg,lottie",
+        default: "false",
+        description: "Rewrite source files after regen",
+        flag: "--inplace",
+      },
+      {
+        default: "cwd",
+        description: "Project root directory",
+        flag: "--root <path>",
+      },
+      {
+        default: "./rn-typed-assets.config.js",
+        description: "Path to config file",
+        flag: "--config <path>",
       },
     ],
+    name: "generate",
+  },
+  {
+    description:
+      "Move asset files into canonical subdirectories, then regenerate and rewrite sources.",
     examples: ["rn-typed-assets organize src/assets"],
+    flags: [
+      {
+        default: "(required)",
+        description: "Path to the asset root to organize",
+        flag: "<assetsDir>",
+      },
+      {
+        default: "image,svg,lottie",
+        description: "Asset types to move",
+        flag: "--types <types>",
+      },
+    ],
+    name: "organize",
     note: "Creates: images/, svgs/, lotties/ subdirectories",
   },
   {
-    name: "audit",
     description: "Compare manifest against actual source-file usages.",
-    flags: [
-      {
-        flag: "--types <types>",
-        description: "Asset types to audit",
-        default: "image,svg,lottie",
-      },
-      {
-        flag: "--fix",
-        description: "Delete unused files and regenerate",
-        default: "false",
-      },
-    ],
     examples: [
       "rn-typed-assets audit",
       "rn-typed-assets audit --fix",
       "rn-typed-assets audit --types=image",
     ],
+    flags: [
+      {
+        default: "image,svg,lottie",
+        description: "Asset types to audit",
+        flag: "--types <types>",
+      },
+      {
+        default: "false",
+        description: "Delete unused files and regenerate",
+        flag: "--fix",
+      },
+    ],
+    name: "audit",
   },
 ];
 
 export function CLIReferenceSection() {
   return (
-    <section className="bg-muted/30 py-20 lg:py-28" id="cli">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">CLI Reference</h2>
-          <p className="mx-auto max-w-2xl text-lg text-pretty text-muted-foreground">
-            Three commands to generate, organize, and audit your assets.
+    <section className="field-grid border-b border-border bg-card/35" id="cli">
+      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+        <div className="max-w-3xl">
+          <p className="section-kicker">CLI reference / 03</p>
+          <h2 className="mt-6 font-display text-4xl leading-[0.96] font-semibold tracking-[-0.05em] text-balance sm:text-6xl">
+            Generate, organize, audit.
+          </h2>
+          <p className="mt-5 text-base leading-7 text-muted-foreground">
+            Three commands cover the whole surface. Each one lists its options and the default it
+            falls back to when the flag is absent.
           </p>
         </div>
 
-        <div className="space-y-8">
-          {commands.map((cmd) => (
-            <div className="overflow-hidden rounded-xl border border-border bg-card" key={cmd.name}>
-              <div className="border-b border-border p-6">
-                <div className="mb-3 flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                    <Terminal className="h-5 w-5 text-primary" />
-                  </div>
-                  <h3 className="font-mono text-xl font-semibold text-foreground">{cmd.name}</h3>
-                </div>
-                <p className="text-muted-foreground">{cmd.description}</p>
-                {cmd.note && <p className="mt-2 text-sm text-accent-ink">{cmd.note}</p>}
-              </div>
-
-              <div className="space-y-6 p-6">
-                {/* Flags table */}
+        <div className="mt-14 space-y-px bg-border">
+          {commands.map((command) => (
+            <article className="bg-background p-6 sm:p-8" key={command.name}>
+              <div className="grid gap-8 lg:grid-cols-[0.6fr_1.4fr]">
                 <div>
-                  <h4 className="mb-3 text-sm font-semibold text-foreground">Options</h4>
+                  <h3 className="font-mono text-2xl font-semibold text-[var(--tool-accent-ink)]">
+                    {command.name}
+                  </h3>
+                  <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">
+                    {command.description}
+                  </p>
+                  {command.note && (
+                    <p className="mt-4 border-l-2 border-[var(--tool-accent)] pl-3 font-mono text-[0.7rem] leading-5 text-muted-foreground">
+                      {command.note}
+                    </p>
+                  )}
+                </div>
+
+                <div className="min-w-0">
                   <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
+                    <table className="w-full min-w-120 border-collapse text-left">
                       <thead>
-                        <tr className="border-b border-border">
-                          <th className="py-2 pr-4 text-left font-medium text-muted-foreground">
-                            Flag
-                          </th>
-                          <th className="py-2 pr-4 text-left font-medium text-muted-foreground">
+                        <tr className="font-mono text-[0.62rem] tracking-[0.13em] text-muted-foreground uppercase">
+                          <th className="border-b border-border py-3 pr-5 font-normal">Flag</th>
+                          <th className="border-b border-border py-3 pr-5 font-normal">
                             Description
                           </th>
-                          <th className="py-2 text-left font-medium text-muted-foreground">
-                            Default
-                          </th>
+                          <th className="border-b border-border py-3 font-normal">Default</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {cmd.flags.map((flag) => (
-                          <tr className="border-b border-border/50 last:border-0" key={flag.flag}>
-                            <td className="py-2 pr-4 font-mono whitespace-nowrap text-primary-ink">
+                        {command.flags.map((flag) => (
+                          <tr className="text-sm" key={flag.flag}>
+                            <td className="border-b border-border py-3 pr-5 font-mono whitespace-nowrap text-foreground">
                               {flag.flag}
                             </td>
-                            <td className="py-2 pr-4 text-muted-foreground">{flag.description}</td>
-                            <td className="py-2 font-mono text-xs text-muted-foreground">
+                            <td className="border-b border-border py-3 pr-5 text-muted-foreground">
+                              {flag.description}
+                            </td>
+                            <td className="border-b border-border py-3 font-mono text-xs text-muted-foreground">
                               {flag.default}
                             </td>
                           </tr>
@@ -135,15 +136,16 @@ export function CLIReferenceSection() {
                       </tbody>
                     </table>
                   </div>
-                </div>
 
-                {/* Examples */}
-                <div>
-                  <h4 className="mb-3 text-sm font-semibold text-foreground">Examples</h4>
-                  <CodeBlock code={cmd.examples.join("\n")} language="bash" />
+                  <div className="mt-7">
+                    <p className="mb-3 font-mono text-[0.62rem] tracking-[0.14em] text-muted-foreground uppercase">
+                      Examples
+                    </p>
+                    <CodeBlock code={command.examples.join("\n")} language="bash" />
+                  </div>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>

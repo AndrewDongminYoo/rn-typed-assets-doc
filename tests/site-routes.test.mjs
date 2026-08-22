@@ -61,3 +61,41 @@ for (const route of routes) {
     }
   });
 }
+
+const assets = [
+  { path: "/sitemap.xml", marker: "/rn-agents-kit</loc>" },
+  { path: "/robots.txt", marker: "Sitemap:" },
+  { path: "/llms.txt", marker: "# React Native Toolkits" },
+];
+
+for (const asset of assets) {
+  test(`${asset.path} is served`, async () => {
+    const response = await fetch(new URL(asset.path, baseUrl), { redirect: "manual" });
+    const body = await response.text();
+
+    assert.equal(response.status, 200, `${asset.path} returned HTTP ${response.status}`);
+    assert.ok(body.includes(asset.marker), `${asset.path} is missing ${asset.marker}`);
+  });
+}
+
+// Legacy root fragments redirect into this route, so these ids are a public contract.
+const typedAssetsAnchors = [
+  "start",
+  "features",
+  "how-it-works",
+  "installation",
+  "cli",
+  "configuration",
+  "ci",
+];
+
+test("/rn-typed-assets keeps its legacy section anchors", async () => {
+  const response = await fetch(new URL("/rn-typed-assets", baseUrl), { redirect: "manual" });
+  const html = await response.text();
+
+  assert.equal(response.status, 200, `/rn-typed-assets returned HTTP ${response.status}`);
+
+  for (const anchor of typedAssetsAnchors) {
+    assert.ok(html.includes(`id="${anchor}"`), `/rn-typed-assets lost the #${anchor} anchor`);
+  }
+});

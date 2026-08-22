@@ -14,18 +14,22 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+import { CodeBlock } from "@/components/code-block";
 import { LegacyHashRedirect } from "@/components/legacy-hash-redirect";
 import { ToolkitCard } from "@/components/toolkit-card";
 import { Button } from "@/components/ui/button";
-import { toolkits } from "@/lib/toolkits";
+import { getToolkit, toolkits } from "@/lib/toolkits";
+
+const agentLayer = getToolkit("rn-agents-kit");
+const deterministicTools = toolkits.filter((toolkit) => toolkit.slug !== agentLayer.slug);
+
+const operatingContract = [
+  { stage: "Audit", value: "06 skills" },
+  { stage: "Consent", value: "explicit" },
+  { stage: "Review", value: "git diff" },
+];
 
 const workflow = [
-  {
-    detail: "Turn a selected Figma subtree into React Native and NativeWind component code.",
-    icon: Layers3,
-    label: "Shape the interface",
-    tool: "Design to NativeWind",
-  },
   {
     detail: "Snapshot project facts before choosing a deeper maintenance workflow.",
     icon: Eye,
@@ -43,6 +47,12 @@ const workflow = [
     icon: ScanLine,
     label: "Expose migration risk",
     tool: "rn-newarch-ready",
+  },
+  {
+    detail: "Turn a selected Figma subtree into React Native and NativeWind component code.",
+    icon: Layers3,
+    label: "Shape the interface",
+    tool: "Design to NativeWind",
   },
 ];
 
@@ -66,6 +76,22 @@ const trustPrinciples = [
     title: "Reviewable change",
   },
 ];
+
+const auditFacts = [
+  ["Project", "Rocket.Chat.ReactNative @ main"],
+  ["Date", "2026-08-19"],
+  ["Tool", "rn-newarch-ready@0.1.1"],
+  ["Files changed", "0"],
+];
+
+const auditRun = `$ npx rn-newarch-ready@0.1.1
+
+React Native — New Architecture readiness
+  react-native: 0.81.5
+  New Arch enabled: android=yes ios=? expo=?
+
+Summary: 23 supported, 23 likely, 10 unknown, 59 non-native, 4 archived
+Verdict: needs-review`;
 
 export default function HomePage() {
   return (
@@ -103,27 +129,23 @@ export default function HomePage() {
             </div>
 
             <dl className="mt-12 grid max-w-xl grid-cols-3 border-y border-border py-5">
-              <div>
-                <dt className="font-mono text-[0.64rem] tracking-[0.14em] text-muted-foreground uppercase">
-                  Public tools
-                </dt>
-                <dd className="mt-2 font-display text-2xl font-semibold">04</dd>
-              </div>
-              <div className="border-l border-border pl-5">
-                <dt className="font-mono text-[0.64rem] tracking-[0.14em] text-muted-foreground uppercase">
-                  Agent skills
-                </dt>
-                <dd className="mt-2 font-display text-2xl font-semibold">06</dd>
-              </div>
-              <div className="border-l border-border pl-5">
-                <dt className="font-mono text-[0.64rem] tracking-[0.14em] text-muted-foreground uppercase">
-                  Runtime deps
-                </dt>
-                <dd className="mt-2 font-display text-2xl font-semibold">00*</dd>
-              </div>
+              {operatingContract.map((item, index) => (
+                <div
+                  className={index === 0 ? undefined : "border-l border-border pl-5"}
+                  key={item.stage}
+                >
+                  <dt className="font-mono text-[0.64rem] tracking-[0.14em] text-muted-foreground uppercase">
+                    {item.stage}
+                  </dt>
+                  <dd className="mt-2 font-display text-xl leading-tight font-semibold">
+                    {item.value}
+                  </dd>
+                </div>
+              ))}
             </dl>
             <p className="mt-2 font-mono text-[0.6rem] text-muted-foreground">
-              * rn-typed-assets package runtime dependencies
+              The agent kit&apos;s operating contract: read first, ask before writing, hand back a
+              diff.
             </p>
           </div>
 
@@ -147,9 +169,9 @@ export default function HomePage() {
 
               <div className="mt-7 space-y-3 font-mono text-xs">
                 {[
-                  ["assets.registry", "typed / generated", "01"],
-                  ["newarch.signal", "needs-review", "02"],
-                  ["agent.audit", "read-only first", "03"],
+                  ["agent.audit", "read-only first", "01"],
+                  ["assets.registry", "typed / generated", "02"],
+                  ["newarch.signal", "needs-review", "03"],
                   ["figma.output", "rn + nativewind", "04"],
                 ].map(([signal, state, index]) => (
                   <div
@@ -185,19 +207,61 @@ export default function HomePage() {
             <p className="section-kicker">Module directory</p>
             <div>
               <h2 className="font-display text-4xl leading-[0.95] font-semibold tracking-[-0.05em] text-balance sm:text-6xl">
-                Four focused tools. One maintenance mindset.
+                One agent layer. Three deterministic tools.
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground">
-                Use one product or combine them around your workflow. Each module has a narrow job,
-                a public source, and a direct path to the underlying tool.
+                The agent kit drives the maintenance loop and calls the tools underneath it. Each
+                tool below also runs on its own, from a public source, with no agent involved.
               </p>
             </div>
           </div>
 
-          <div className="mt-14 grid gap-px bg-border md:grid-cols-2">
-            {toolkits.map((toolkit) => (
+          <div className="mt-14 flex items-center gap-4">
+            <p className="font-mono text-[0.64rem] tracking-[0.16em] text-primary-ink uppercase">
+              Agentic layer
+            </p>
+            <span className="h-px flex-1 bg-border" />
+          </div>
+          <div className="mt-5">
+            <ToolkitCard featured toolkit={agentLayer} />
+          </div>
+
+          <div className="mt-10 flex items-center gap-4">
+            <p className="font-mono text-[0.64rem] tracking-[0.16em] text-muted-foreground uppercase">
+              Deterministic tools
+            </p>
+            <span className="h-px flex-1 bg-border" />
+          </div>
+          <div className="mt-5 grid gap-px bg-border md:grid-cols-3">
+            {deterministicTools.map((toolkit) => (
               <ToolkitCard key={toolkit.slug} toolkit={toolkit} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+          <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
+            <div>
+              <p className="section-kicker">Trust contract</p>
+              <h2 className="mt-6 font-display text-4xl leading-[0.98] font-semibold tracking-[-0.05em] sm:text-5xl">
+                Evidence before confidence.
+              </h2>
+            </div>
+            <div className="grid gap-px bg-border md:grid-cols-3">
+              {trustPrinciples.map((principle) => (
+                <article className="bg-card p-6 sm:p-7" key={principle.title}>
+                  <principle.icon className="size-6 text-primary" strokeWidth={1.5} />
+                  <h3 className="mt-10 font-display text-2xl font-semibold tracking-[-0.035em]">
+                    {principle.title}
+                  </h3>
+                  <p className="mt-4 text-sm leading-6 text-muted-foreground">
+                    {principle.description}
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -238,27 +302,51 @@ export default function HomePage() {
       </section>
 
       <section className="border-b border-border">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
-          <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
-            <div>
-              <p className="section-kicker">Trust contract</p>
-              <h2 className="mt-6 font-display text-4xl leading-[0.98] font-semibold tracking-[-0.05em] sm:text-5xl">
-                Evidence before confidence.
-              </h2>
-            </div>
-            <div className="grid gap-px bg-border md:grid-cols-3">
-              {trustPrinciples.map((principle) => (
-                <article className="bg-card p-6 sm:p-7" key={principle.title}>
-                  <principle.icon className="size-6 text-primary" strokeWidth={1.5} />
-                  <h3 className="mt-10 font-display text-2xl font-semibold tracking-[-0.035em]">
-                    {principle.title}
-                  </h3>
-                  <p className="mt-4 text-sm leading-6 text-muted-foreground">
-                    {principle.description}
-                  </p>
-                </article>
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.72fr_1.28fr] lg:px-12 lg:py-28">
+          <div>
+            <p className="section-kicker">Field record / public run</p>
+            <h2 className="mt-6 font-display text-4xl leading-[0.96] font-semibold tracking-[-0.05em] text-balance sm:text-5xl">
+              A real audit. Zero files changed.
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground">
+              The rn-newarch-audit skill ran the New Architecture readiness audit against
+              Rocket.Chat&apos;s React Native client. It read the manifest, the installed
+              dependencies, and the app&apos;s own native sources, then named five app-local native
+              modules still on legacy APIs — with the New Architecture flag already switched on.
+            </p>
+            <dl className="mt-8 max-w-xl border-t border-border">
+              {auditFacts.map(([label, value]) => (
+                <div
+                  className="flex items-baseline justify-between gap-4 border-b border-border py-3"
+                  key={label}
+                >
+                  <dt className="font-mono text-[0.6rem] tracking-[0.14em] text-muted-foreground uppercase">
+                    {label}
+                  </dt>
+                  <dd className="font-mono text-sm text-foreground">{value}</dd>
+                </div>
               ))}
+            </dl>
+            <div className="mt-8">
+              <Button asChild className="h-12 rounded-none px-6" variant="outline">
+                <a
+                  href="https://github.com/AndrewDongminYoo/rn-agents-kit/blob/main/docs/examples/newarch-audit.md"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Read the full example
+                  <ArrowRight className="size-4" />
+                </a>
+              </Button>
             </div>
+          </div>
+          <div className="lab-panel min-w-0 border border-border bg-card p-5 sm:p-7">
+            <CodeBlock code={auditRun} language="text" />
+            <p className="mt-5 border-t border-border pt-5 font-mono text-[0.64rem] leading-5 text-muted-foreground">
+              Abridged. The full run also lists the 4 archived dependencies and the 5 app-local
+              native modules by path, and exits 1 on a needs-review verdict so the same command
+              works as a CI gate.
+            </p>
           </div>
         </div>
       </section>
