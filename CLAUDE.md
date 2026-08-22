@@ -5,18 +5,26 @@ This file provides repository guidance for agents working on the React Native To
 ## Commands
 
 ```plaintext
-pnpm dev        # Start the local Next.js server
-pnpm build      # Create the production build
-pnpm lint       # Run ESLint
-pnpm lint:fix   # Apply ESLint fixes
-pnpm format     # Apply Prettier formatting
+pnpm dev           # Start the local Next.js server
+pnpm build         # Create the production build (type-checked)
+pnpm lint          # Run ESLint
+pnpm lint:fix      # Apply ESLint fixes
+pnpm typecheck     # Run tsc --noEmit
+pnpm format        # Apply Prettier formatting
+pnpm format:check  # Verify Prettier formatting
+pnpm test          # Run the dependency-free route tests
 ```
 
-Run the dependency-free route test against a running local server.
+`pnpm test` needs a server already running, and reads `SITE_BASE_URL` (default `http://127.0.0.1:3000`).
+Point it at a production build rather than `pnpm dev`, because route handlers that declare `force-static` behave differently under the dev server.
 
 ```bash
-SITE_BASE_URL=http://127.0.0.1:3000 node --test tests/site-routes.test.mjs
+pnpm build && pnpm start &
+pnpm test
 ```
+
+`.github/workflows/ci.yml` runs `format:check`, `lint`, `typecheck`, `build`, and `test` on every pull request.
+Keep that workflow and this list in step.
 
 ## Architecture
 
