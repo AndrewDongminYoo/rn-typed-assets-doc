@@ -77,3 +77,25 @@ for (const asset of assets) {
     assert.ok(body.includes(asset.marker), `${asset.path} is missing ${asset.marker}`);
   });
 }
+
+// Legacy root fragments redirect into this route, so these ids are a public contract.
+const typedAssetsAnchors = [
+  "start",
+  "features",
+  "how-it-works",
+  "installation",
+  "cli",
+  "configuration",
+  "ci",
+];
+
+test("/rn-typed-assets keeps its legacy section anchors", async () => {
+  const response = await fetch(new URL("/rn-typed-assets", baseUrl), { redirect: "manual" });
+  const html = await response.text();
+
+  assert.equal(response.status, 200, `/rn-typed-assets returned HTTP ${response.status}`);
+
+  for (const anchor of typedAssetsAnchors) {
+    assert.ok(html.includes(`id="${anchor}"`), `/rn-typed-assets lost the #${anchor} anchor`);
+  }
+});
