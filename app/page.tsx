@@ -168,9 +168,9 @@ export default function HomePage() {
 
               <div className="mt-7 space-y-3 font-mono text-xs">
                 {[
-                  ["assets.registry", "typed / generated", "01"],
-                  ["newarch.signal", "needs-review", "02"],
-                  ["agent.audit", "read-only first", "03"],
+                  ["agent.audit", "read-only first", "01"],
+                  ["assets.registry", "typed / generated", "02"],
+                  ["newarch.signal", "needs-review", "03"],
                   ["figma.output", "rn + nativewind", "04"],
                 ].map(([signal, state, index]) => (
                   <div
