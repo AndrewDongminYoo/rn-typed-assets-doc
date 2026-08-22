@@ -70,8 +70,8 @@ export function ConfigurationSection() {
             Zero config by default, explicit when overridden.
           </h2>
           <p className="mt-5 text-base leading-7 text-muted-foreground">
-            The defaults cover the standard layout. A config file replaces only the fields it names,
-            so omitting the file accepts every default.
+            The defaults cover the standard layout. A config file at the project root replaces only
+            the fields it names, so omitting it accepts every default.
           </p>
         </div>
 
