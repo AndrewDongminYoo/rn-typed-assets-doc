@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 
+import type { ProsePage } from "@/lib/prose-pages";
 import { siteName } from "@/lib/site";
 import type { Toolkit } from "@/lib/toolkits";
 
@@ -99,6 +100,24 @@ function Card({ accentHex, description, eyebrow, footnote, index, title }: CardP
 
 export function renderCard(props: CardProps) {
   return new ImageResponse(<Card {...props} />, ogSize);
+}
+
+/**
+ * Trust-anchor pages have no accent of their own, so their cards borrow the hub's. sRGB twin of
+ * the dark `--accent` token in `app/globals.css`, `oklch(0.83 0.2 132)`.
+ */
+const hubAccent = "#95e144";
+
+/** A prose page's card. The catalog ends at 04, so these continue the field index. */
+export function renderProseCard(page: ProsePage, index: string) {
+  return renderCard({
+    accentHex: hubAccent,
+    description: page.description,
+    eyebrow: page.kicker,
+    footnote: siteName,
+    index,
+    title: page.title,
+  });
 }
 
 /** Every field comes from the catalog, so a new product needs no separate card registration. */

@@ -12,9 +12,11 @@ import {
 import type { CSSProperties } from "react";
 
 import { CodeBlock } from "@/components/code-block";
+import { JsonLd } from "@/components/json-ld";
 import { ProductHero } from "@/components/product-hero";
 import { Button } from "@/components/ui/button";
 import { productMetadata } from "@/lib/site";
+import { productGraph } from "@/lib/structured-data";
 import { getToolkit } from "@/lib/toolkits";
 
 const installCode = `/plugin marketplace add AndrewDongminYoo/rn-agents-kit
@@ -74,10 +76,7 @@ const contract = [
 
 const toolkit = getToolkit("rn-agents-kit");
 
-export const metadata = productMetadata(
-  toolkit,
-  "Six audit-first agent skills for React Native project snapshots, asset hygiene, New Architecture readiness, code review, device capture, and Metro console output."
-);
+export const metadata = productMetadata(toolkit);
 
 export default function AgentsKitPage() {
   return (
@@ -85,6 +84,8 @@ export default function AgentsKitPage() {
       className="tool-accent-scope"
       style={{ "--tool-accent": toolkit.accent } as CSSProperties}
     >
+      <JsonLd graph={productGraph(toolkit)} />
+
       <ProductHero
         description="The public v0.1.0 snapshot packages six narrow skills. Each one owns a specific maintenance job and keeps evidence, consent, and review boundaries explicit."
         intro="Give your coding agent a React Native maintenance kit that reads first and earns every change."

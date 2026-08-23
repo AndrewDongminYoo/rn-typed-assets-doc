@@ -1,15 +1,23 @@
 # Custom Dictionary
+acceptmarkdown
 appendonly
 asyncio
+browsable
+canonicalises
 codegen
 codemod
 coupang
 dataclass
 dataclasses
+Dongmin
 harini
 inplace
 kotlinx
+llmstxt
 lotties
+maxage
+Normalises
+nosniff
 pipefail
 regen
 shiki

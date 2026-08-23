@@ -1,6 +1,8 @@
 import { ArrowUpRight, Github } from "lucide-react";
 import Link from "next/link";
 
+import { prosePages } from "@/lib/prose-pages";
+import { agentEndpoints, siteAuthor } from "@/lib/site";
 import { toolkits } from "@/lib/toolkits";
 
 export function SiteFooter() {
@@ -49,6 +51,53 @@ export function SiteFooter() {
             </Link>
           ))}
         </nav>
+      </div>
+      <div className="border-t border-border">
+        <div className="mx-auto grid max-w-7xl gap-8 px-5 py-10 sm:px-8 lg:grid-cols-2 lg:px-12">
+          <nav aria-label="Site information">
+            <p className="font-mono text-[0.62rem] tracking-[0.16em] text-muted-foreground uppercase">
+              Site
+            </p>
+            <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+              {prosePages.map((page) => (
+                <li key={page.route}>
+                  <Link
+                    className="text-sm text-muted-foreground transition-colors hover:text-primary-ink"
+                    href={page.route}
+                  >
+                    {page.title}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <a
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary-ink"
+                  href={`mailto:${siteAuthor.email}`}
+                >
+                  {siteAuthor.email}
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <nav aria-label="Machine-readable endpoints">
+            <p className="font-mono text-[0.62rem] tracking-[0.16em] text-muted-foreground uppercase">
+              For agents
+            </p>
+            <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+              {agentEndpoints.map((endpoint) => (
+                <li key={endpoint.path}>
+                  <a
+                    className="font-mono text-xs text-muted-foreground transition-colors hover:text-primary-ink"
+                    href={endpoint.path}
+                  >
+                    {endpoint.path}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </div>
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-5 font-mono text-[0.65rem] tracking-[0.12em] text-muted-foreground uppercase sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">

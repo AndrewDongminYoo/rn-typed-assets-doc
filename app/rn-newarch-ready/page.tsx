@@ -3,9 +3,11 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import { CodeBlock } from "@/components/code-block";
+import { JsonLd } from "@/components/json-ld";
 import { ProductHero } from "@/components/product-hero";
 import { Button } from "@/components/ui/button";
 import { productMetadata } from "@/lib/site";
+import { productGraph } from "@/lib/structured-data";
 import { getToolkit } from "@/lib/toolkits";
 
 const installCode = `npm install --save-dev rn-newarch-ready`;
@@ -52,10 +54,7 @@ const signalRows = [
 
 const toolkit = getToolkit("rn-newarch-ready");
 
-export const metadata = productMetadata(
-  toolkit,
-  "A read-only, local-first React Native New Architecture readiness audit for dependencies, settings, and app-local native modules."
-);
+export const metadata = productMetadata(toolkit);
 
 export default function NewArchitectureReadyPage() {
   return (
@@ -63,6 +62,8 @@ export default function NewArchitectureReadyPage() {
       className="tool-accent-scope"
       style={{ "--tool-accent": toolkit.accent } as CSSProperties}
     >
+      <JsonLd graph={productGraph(toolkit)} />
+
       <ProductHero
         description="The CLI reads local configuration and installed packages first, enriches uncertain dependencies with public directory data when online, and states what still requires human verification."
         intro="Audit New Architecture readiness without pretending an absent signal is proof of incompatibility."

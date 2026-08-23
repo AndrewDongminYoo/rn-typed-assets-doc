@@ -10,9 +10,11 @@ import {
 } from "lucide-react";
 import type { CSSProperties } from "react";
 
+import { JsonLd } from "@/components/json-ld";
 import { ProductHero } from "@/components/product-hero";
 import { Button } from "@/components/ui/button";
 import { productMetadata } from "@/lib/site";
+import { productGraph } from "@/lib/structured-data";
 import { getToolkit } from "@/lib/toolkits";
 
 const pipeline = [
@@ -80,10 +82,7 @@ const capabilities = [
 
 const toolkit = getToolkit("design-to-nativewind");
 
-export const metadata = productMetadata(
-  toolkit,
-  "A Figma plugin that deterministically converts selected designs into React Native and NativeWind component code."
-);
+export const metadata = productMetadata(toolkit);
 
 export default function DesignToNativeWindPage() {
   return (
@@ -91,6 +90,8 @@ export default function DesignToNativeWindPage() {
       className="tool-accent-scope"
       style={{ "--tool-accent": toolkit.accent } as CSSProperties}
     >
+      <JsonLd graph={productGraph(toolkit)} />
+
       <ProductHero
         description="The conversion core operates on a plain intermediate representation. React Native and NativeWind are the first-class output; naming and structural cleanup can optionally use an assisted pass."
         intro="Turn the selected Figma subtree into React Native code without turning the design handoff into guesswork."

@@ -12,12 +12,30 @@ import {
   ScanLine,
   ShieldCheck,
 } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 
+import { JsonLd } from "@/components/json-ld";
 import { LegacyHashRedirect } from "@/components/legacy-hash-redirect";
 import { ToolkitCard } from "@/components/toolkit-card";
 import { Button } from "@/components/ui/button";
+import { faq } from "@/lib/faq";
+import { markdownAlternates, siteDescription, siteName } from "@/lib/site";
+import { homeGraph } from "@/lib/structured-data";
 import { getToolkit, toolkits } from "@/lib/toolkits";
+
+// The root layout has no `alternates` block on purpose: one there would canonicalise every route
+// to `/`. Each route declares its own instead.
+export const metadata: Metadata = {
+  alternates: markdownAlternates("/"),
+  openGraph: {
+    description: siteDescription,
+    siteName,
+    title: siteName,
+    type: "website",
+    url: "/",
+  },
+};
 
 const agentLayer = getToolkit("rn-agents-kit");
 const deterministicTools = toolkits.filter((toolkit) => toolkit.slug !== agentLayer.slug);
@@ -95,6 +113,7 @@ Verdict: needs-review`;
 export default function HomePage() {
   return (
     <main>
+      <JsonLd graph={homeGraph()} />
       <LegacyHashRedirect />
 
       <section className="field-grid relative isolate overflow-hidden border-b border-border">
@@ -351,6 +370,35 @@ export default function HomePage() {
               works as a CI gate.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="border-b border-border" id="questions">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.7fr_1.3fr] lg:px-12 lg:py-28">
+          <div>
+            <p className="section-kicker">Field notes / Common questions</p>
+            <h2 className="mt-6 font-display text-4xl leading-[0.98] font-semibold tracking-[-0.05em] sm:text-5xl">
+              Answered before you ask.
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground">
+              Cost, blast radius, and entry point — the three things worth settling before any of
+              these tools touches a project.
+            </p>
+          </div>
+          <dl className="border-t border-border">
+            {faq.map((entry) => (
+              <div className="border-b border-border py-7" key={entry.question}>
+                <dt>
+                  <h3 className="font-display text-2xl leading-tight font-semibold tracking-[-0.035em]">
+                    {entry.question}
+                  </h3>
+                </dt>
+                <dd className="mt-3 max-w-3xl text-base leading-7 text-muted-foreground">
+                  {entry.answer}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
